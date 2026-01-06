@@ -1003,8 +1003,8 @@ buildExtension();
 
 - [x] Create packages/server/src/index.ts entry point with Bun.serve
 - [x] Create packages/server/src/router.ts with request routing logic
-- [ ] Create packages/server/src/middleware/cors.ts for CORS handling
-- [ ] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
+- [x] Create packages/server/src/middleware/cors.ts for CORS handling
+- [x] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
 - [ ] Create packages/server/src/routes/health.ts with GET /health endpoint
 - [ ] Test health endpoint with curl
 

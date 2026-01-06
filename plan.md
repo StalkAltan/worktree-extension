@@ -33,6 +33,8 @@
 ### Phase 3: Server - Core Infrastructure
 - [x] Create packages/server/src/index.ts entry point with Bun.serve
 - [x] Create packages/server/src/router.ts with request routing logic
+- [x] Create packages/server/src/middleware/cors.ts for CORS handling
+- [x] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
 
 ## Next Up
-- Create packages/server/src/middleware/cors.ts for CORS handling
+- Create packages/server/src/routes/health.ts with GET /health endpoint

@@ -90,14 +90,14 @@ export class Router {
     };
 
     // Apply middlewares in reverse order to create the chain
-    let handler = finalHandler;
+    let handler: () => Response | Promise<Response> = finalHandler;
     for (let i = this.middlewares.length - 1; i >= 0; i--) {
       const middleware = this.middlewares[i];
       const nextHandler = handler;
       handler = () => middleware(request, nextHandler);
     }
 
-    return handler();
+    return Promise.resolve(handler());
   }
 }
 

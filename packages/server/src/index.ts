@@ -6,12 +6,16 @@
  */
 
 import { createRouter } from "./router";
+import { corsMiddleware } from "./middleware/cors";
 
 const PORT = 21547;
 const VERSION = "1.0.0";
 
 // Create router and register routes
 const router = createRouter();
+
+// Apply CORS middleware
+router.use(corsMiddleware());
 
 // Health check endpoint
 router.get("/health", () => {
