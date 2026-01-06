@@ -17,7 +17,8 @@
 - [x] Create packages/extension/tsconfig.json extending root config
 - [x] Create packages/server/package.json with dependencies
 - [x] Create packages/server/tsconfig.json extending root config
+- [x] Install all dependencies with `bun install`
+- [x] Verify workspace setup works correctly
 
 ## Next Up
-- Install all dependencies with `bun install`
-- Verify workspace setup works correctly
+- Create packages/extension/src/lib/types.ts with all TypeScript interfaces
