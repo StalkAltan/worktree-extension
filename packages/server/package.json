@@ -1,5 +1,14 @@
 {
   "name": "@worktree/server",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun run src/index.ts",
+    "daemon": "./scripts/daemon.sh"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
 }

@@ -985,7 +985,7 @@ buildExtension();
 - [x] Create packages/extension/package.json with dependencies
 - [x] Create packages/extension/tsconfig.json extending root config
 - [x] Create packages/server directory
-- [ ] Create packages/server/package.json with dependencies
+- [x] Create packages/server/package.json with dependencies
 - [ ] Create packages/server/tsconfig.json extending root config
 - [ ] Install all dependencies with `bun install`
 - [x] Verify workspace setup works correctly
