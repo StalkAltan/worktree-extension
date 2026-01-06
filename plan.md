@@ -120,8 +120,13 @@
 - [x] Create packages/extension/src/popup/index.tsx entry point
 - [x] Create packages/extension/src/popup/App.tsx with router (stub implementation)
 - [x] Create packages/extension/src/popup/styles/popup.css base styles
+- [x] Create packages/extension/src/popup/components/Navigation.tsx
 
 ## Next Up
+- Create packages/extension/src/popup/components/ServerStatus.tsx (Phase 12)
+- Implement health check on popup open (Phase 12)
+- Display connected/disconnected status with indicator (Phase 12)
+- Create packages/extension/src/popup/pages/Status.tsx (Phase 12)
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
 - Test storage operations in extension context (Phase 9)
@@ -130,4 +135,3 @@
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
 - Test background script loads correctly (Phase 11)
-- Phase 12: Extension - Popup Status Page (continue with popup.css, components, etc.)
