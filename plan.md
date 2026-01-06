@@ -227,16 +227,26 @@
 ### Phase 8: Extension - Manifest and Build (continued)
 - [x] Test build script produces correct output structure - Verified: dist/ contains background/index.js, content/{index.js,content.css}, popup/{index.html,index.js,popup.css}, icons/icon{16,32,48,128}.png, manifest.json
 
-## Next Up
+### Phase 13: Extension - Popup Settings Page (finalized)
+- [x] Create packages/extension/src/popup/components/Input.tsx styled input (implemented inline in Settings.tsx)
+- [x] Create packages/extension/src/popup/components/ProjectMappingRow.tsx (implemented inline in Settings.tsx)
+
+### Phase 20: Polish and Edge Cases
+- [x] Add form validation feedback (empty fields, invalid paths) - implemented in WorktreeDialog.tsx
+- [x] Handle case when server is not running (show helpful error) - NetworkError in api.ts shows "Is the worktree server running?"
+- [x] Handle very long issue titles (truncation) - branch-name.ts truncates to 100 chars
+- [x] Handle special characters in issue titles - branch-name.ts converts to hyphens
+- [x] Handle missing config gracefully in content script - WorktreeDialog shows error state
+- [x] Add loading state when fetching config in dialog - configLoading state in WorktreeDialog.tsx
+- [x] Improve error messages for common failures - api.ts has specific error messages
+
+## Next Up (Testing Tasks)
 - Test content script loads on Linear pages (Phase 14)
 - Test button appears correctly on issue pages (Phase 15)
 - Test button re-appears after navigation (Phase 15)
 - Test dialog opens and closes correctly (Phase 16)
 - Test all state transitions (Phase 17)
 - Test full create worktree flow end-to-end (Phase 18)
-- Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
-- Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
-- Add back navigation to status page (Phase 13 - already handled by Navigation component)
 - Test settings save and load correctly (Phase 13)
 - Test project mapping CRUD operations (Phase 13)
 - Test popup renders correctly (Phase 12)
@@ -247,3 +257,11 @@
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
 - Test background script loads correctly (Phase 11)
+- Test on different Linear issue page variations (Phase 20)
+- Test SPA navigation between issues (Phase 20)
+- Test navigation away from issue and back (Phase 20)
+- Clean up console logs and debug code (Phase 20)
+- Add helpful comments to complex code sections (Phase 20)
+- Final code review and cleanup (Phase 21)
+- Test clean install from scratch (Phase 21)
+- Tag version 1.0.0 (Phase 21)

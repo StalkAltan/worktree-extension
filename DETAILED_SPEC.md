@@ -1120,11 +1120,11 @@ buildExtension();
 ## Phase 13: Extension - Popup Settings Page
 
 - [x] Create packages/extension/src/popup/pages/Settings.tsx
-- [ ] Create packages/extension/src/popup/components/Input.tsx styled input
+- [x] Create packages/extension/src/popup/components/Input.tsx styled input (implemented inline in Settings.tsx)
 - [x] Implement server URL input field with validation
 - [x] Implement worktree root directory input field
 - [x] Implement terminal command input field with token help text
-- [ ] Create packages/extension/src/popup/components/ProjectMappingRow.tsx
+- [x] Create packages/extension/src/popup/components/ProjectMappingRow.tsx (implemented inline in Settings.tsx)
 - [x] Implement project mappings table/list view
 - [x] Implement add new mapping functionality
 - [x] Implement edit existing mapping functionality
@@ -1236,13 +1236,13 @@ buildExtension();
 
 ## Phase 20: Polish and Edge Cases
 
-- [ ] Add form validation feedback (empty fields, invalid paths)
-- [ ] Handle case when server is not running (show helpful error)
-- [ ] Handle very long issue titles (truncation)
-- [ ] Handle special characters in issue titles
-- [ ] Handle missing config gracefully in content script
-- [ ] Add loading state when fetching config in dialog
-- [ ] Improve error messages for common failures
+- [x] Add form validation feedback (empty fields, invalid paths) (implemented in WorktreeDialog.tsx)
+- [x] Handle case when server is not running (show helpful error) (NetworkError in api.ts shows "Is the worktree server running?")
+- [x] Handle very long issue titles (truncation) (branch-name.ts truncates to 100 chars)
+- [x] Handle special characters in issue titles (branch-name.ts converts to hyphens)
+- [x] Handle missing config gracefully in content script (WorktreeDialog shows error state)
+- [x] Add loading state when fetching config in dialog (configLoading state in WorktreeDialog.tsx)
+- [x] Improve error messages for common failures (api.ts has specific error messages)
 - [ ] Test on different Linear issue page variations
 - [ ] Test SPA navigation between issues
 - [ ] Test navigation away from issue and back
