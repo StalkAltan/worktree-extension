@@ -224,6 +224,9 @@
 - [x] Document terminal command tokens
 - [x] Add troubleshooting section
 
+### Phase 8: Extension - Manifest and Build (continued)
+- [x] Test build script produces correct output structure - Verified: dist/ contains background/index.js, content/{index.js,content.css}, popup/{index.html,index.js,popup.css}, icons/icon{16,32,48,128}.png, manifest.json
+
 ## Next Up
 - Test content script loads on Linear pages (Phase 14)
 - Test button appears correctly on issue pages (Phase 15)
@@ -237,7 +240,6 @@
 - Test settings save and load correctly (Phase 13)
 - Test project mapping CRUD operations (Phase 13)
 - Test popup renders correctly (Phase 12)
-- Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
 - Test storage operations in extension context (Phase 9)
 - Test API client against running server (Phase 10)
