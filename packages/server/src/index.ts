@@ -5,27 +5,27 @@
  * Communicates with the Chrome extension to create/open worktrees from Linear issues.
  */
 
+import { createRouter } from "./router";
+
 const PORT = 21547;
 const VERSION = "1.0.0";
 
+// Create router and register routes
+const router = createRouter();
+
+// Health check endpoint
+router.get("/health", () => {
+  return Response.json({
+    status: "ok",
+    version: VERSION,
+  });
+});
+
+// Start the server
 const server = Bun.serve({
   port: PORT,
-  fetch(request: Request): Response {
-    const url = new URL(request.url);
-
-    // Health check endpoint
-    if (request.method === "GET" && url.pathname === "/health") {
-      return Response.json({
-        status: "ok",
-        version: VERSION,
-      });
-    }
-
-    // 404 for unmatched routes
-    return Response.json(
-      { error: "not_found", message: "Endpoint not found" },
-      { status: 404 }
-    );
+  fetch(request: Request): Promise<Response> {
+    return router.handle(request);
   },
 });
 
