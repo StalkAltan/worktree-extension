@@ -87,10 +87,10 @@
 - [x] Implement popup build configuration
 - [x] Implement background script build configuration
 - [x] Add static file copying (manifest, HTML, icons)
+- [x] Create packages/extension/public/icons directory
+- [x] Create placeholder icons (16, 32, 48, 128px) - Generated via scripts/generate-icons.ts
 
 ## Next Up
-- Create packages/extension/public/icons directory (Phase 8)
-- Create placeholder icons (16, 32, 48, 128px) (Phase 8)
 - Create packages/extension/src/popup/index.html (Phase 8)
 - Test build script produces correct output structure (Phase 8)
 - Test endpoints with curl/Postman (Phase 6)
