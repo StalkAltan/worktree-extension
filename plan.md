@@ -100,11 +100,21 @@
 - [x] Implement removeProjectMapping() helper
 - [x] Add type-safe wrapper with default values
 
+### Phase 10: Extension - API Client
+- [x] Create packages/extension/src/lib/api.ts
+- [x] Implement healthCheck() function
+- [x] Implement createWorktree() function with proper error handling
+- [x] Implement openWorktree() function
+- [x] Add timeout handling for requests
+- [x] Add response parsing and type validation
+- [x] Handle network errors gracefully
+
 ## Next Up
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
 - Test storage operations in extension context (Phase 9)
-- Phase 10: Extension - API Client
+- Test API client against running server (Phase 10)
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
+- Phase 11: Extension - Background Service Worker

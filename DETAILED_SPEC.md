@@ -1082,13 +1082,13 @@ buildExtension();
 
 ## Phase 10: Extension - API Client
 
-- [ ] Create packages/extension/src/lib/api.ts
-- [ ] Implement healthCheck() function
-- [ ] Implement createWorktree() function with proper error handling
-- [ ] Implement openWorktree() function
-- [ ] Add timeout handling for requests
-- [ ] Add response parsing and type validation
-- [ ] Handle network errors gracefully
+- [x] Create packages/extension/src/lib/api.ts
+- [x] Implement healthCheck() function
+- [x] Implement createWorktree() function with proper error handling
+- [x] Implement openWorktree() function
+- [x] Add timeout handling for requests
+- [x] Add response parsing and type validation
+- [x] Handle network errors gracefully
 - [ ] Test API client against running server
 
 ## Phase 11: Extension - Background Service Worker
