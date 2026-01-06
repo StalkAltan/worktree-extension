@@ -16,11 +16,7 @@ export function App() {
   // Re-check context on navigation
   usePageNavigation();
   
-  // Don't render anything if we can't get Linear context
-  if (!linearContext) {
-    return null;
-  }
-  
+  // All hooks must be called before any conditional returns
   const openDialog = useCallback(() => {
     setDialogState({ type: "form" });
   }, []);
@@ -32,6 +28,11 @@ export function App() {
   const handleStateChange = useCallback((state: DialogState) => {
     setDialogState(state);
   }, []);
+  
+  // Don't render anything if we can't get Linear context
+  if (!linearContext) {
+    return null;
+  }
   
   return (
     <>
