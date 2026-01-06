@@ -1047,13 +1047,13 @@ buildExtension();
 
 ## Phase 7: Server - Daemon Script
 
-- [ ] Create packages/server/scripts/daemon.sh
-- [ ] Add start command with nohup/background execution
-- [ ] Add stop command to kill running daemon
-- [ ] Add status command to check if daemon is running
-- [ ] Add restart command
-- [ ] Make script executable
-- [ ] Test daemon start/stop functionality
+- [x] Create packages/server/scripts/daemon.sh
+- [x] Add start command with nohup/background execution
+- [x] Add stop command to kill running daemon
+- [x] Add status command to check if daemon is running
+- [x] Add restart command
+- [x] Make script executable
+- [x] Test daemon start/stop functionality
 
 ## Phase 8: Extension - Manifest and Build
 

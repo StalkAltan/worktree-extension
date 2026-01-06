@@ -71,7 +71,17 @@
 - [x] Add directory existence check for open endpoint
 - [x] Integrate terminal service for opening existing worktree
 
+### Phase 7: Server - Daemon Script
+- [x] Create packages/server/scripts/daemon.sh
+- [x] Add start command with nohup/background execution
+- [x] Add stop command to kill running daemon
+- [x] Add status command to check if daemon is running
+- [x] Add restart command
+- [x] Make script executable
+- [x] Test daemon start/stop functionality
+
 ## Next Up
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
+- Phase 8: Extension - Manifest and Build
