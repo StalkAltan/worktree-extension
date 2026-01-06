@@ -27,7 +27,7 @@ async function buildContentScript() {
     entrypoints: [entrypoint],
     outdir: join(DIST_DIR, "content"),
     target: "browser",
-    format: "esm",
+    format: "iife",
     minify: !isWatch,
     sourcemap: isWatch ? "inline" : "none",
   });
