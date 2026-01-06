@@ -58,7 +58,14 @@ function findInjectionPoint(): HTMLElement | null {
     console.log('[Worktree] Found contextual menu');
     
     // Find property buttons and their container
-    const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
+    // Try both with and without ="true"
+    let propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
+    if (propertyButtons.length === 0) {
+      propertyButtons = contextualMenu.querySelectorAll('[data-detail-button]');
+    }
+    if (propertyButtons.length === 0) {
+      propertyButtons = contextualMenu.querySelectorAll('button');
+    }
     console.log('[Worktree] Found', propertyButtons.length, 'property buttons');
     
     if (propertyButtons.length > 0) {
@@ -86,11 +93,18 @@ function findInjectionPoint(): HTMLElement | null {
       }
     }
     
-    // Fallback: find the deepest div child that has children
-    const firstChild = contextualMenu.querySelector(':scope > div > div');
-    if (firstChild instanceof HTMLElement) {
-      console.log('[Worktree] Using contextual menu > div > div');
-      return firstChild;
+    // Find the inner container (contextual menu is display:flex, we need the column inside)
+    // Structure: contextual-menu > div > div (property rows container)
+    const innerContainer = contextualMenu.querySelector(':scope > div');
+    if (innerContainer instanceof HTMLElement) {
+      // Look for the container that has the property rows (after the "Properties" label)
+      const propertyRowsContainer = innerContainer.querySelector(':scope > div:last-child');
+      if (propertyRowsContainer instanceof HTMLElement) {
+        console.log('[Worktree] Using property rows container');
+        return propertyRowsContainer;
+      }
+      console.log('[Worktree] Using inner container');
+      return innerContainer;
     }
     
     console.log('[Worktree] Using contextual menu directly');
@@ -141,11 +155,14 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
     container.id = "worktree-button-container";
     container.setAttribute("data-worktree-extension", "true");
     
-    // Style to match Linear's property row
+    // Style to work in Linear's flex layout and be visible
     container.style.cssText = `
-      padding: 6px 12px;
+      width: 100%;
+      padding: 8px 12px;
       margin: 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      flex-shrink: 0;
+      order: 999;
     `;
     
     return container;
