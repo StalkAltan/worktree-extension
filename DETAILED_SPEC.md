@@ -1057,7 +1057,7 @@ buildExtension();
 
 ## Phase 8: Extension - Manifest and Build
 
-- [ ] Create packages/extension/manifest.json (Manifest V3)
+- [x] Create packages/extension/manifest.json (Manifest V3)
 - [ ] Create packages/extension/build.ts Bun build script
 - [ ] Implement content script build configuration
 - [ ] Implement popup build configuration

@@ -80,8 +80,12 @@
 - [x] Make script executable
 - [x] Test daemon start/stop functionality
 
+### Phase 8: Extension - Manifest and Build
+- [x] Create packages/extension/manifest.json (Manifest V3)
+
 ## Next Up
+- Create packages/extension/build.ts Bun build script (Phase 8)
+- Implement content script build configuration (Phase 8)
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
-- Phase 8: Extension - Manifest and Build
