@@ -32,6 +32,8 @@ function GitBranchIcon() {
  * We look for common patterns in Linear's DOM structure.
  */
 const SIDEBAR_SELECTORS = [
+  // Linear's contextual menu container for properties
+  '[data-contextual-menu="true"]',
   // Linear's issue detail panel properties section
   '[data-testid="issue-properties"]',
   '[data-testid="properties-section"]',
@@ -50,8 +52,40 @@ const SIDEBAR_SELECTORS = [
  * Returns the element where we should inject our button as the last child.
  */
 function findInjectionPoint(): HTMLElement | null {
-  // Try each selector in order of specificity
+  // First, try to find the contextual menu (properties panel)
+  const contextualMenu = document.querySelector('[data-contextual-menu="true"]');
+  if (contextualMenu instanceof HTMLElement) {
+    console.log('[Worktree] Found contextual menu');
+    
+    // Find the container that holds the property rows
+    // Look for a container that has data-detail-button children
+    const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button]');
+    if (propertyButtons.length > 0) {
+      // Get the common parent of property buttons
+      const firstButton = propertyButtons[0];
+      // Go up a few levels to find a good container
+      let container = firstButton.parentElement;
+      while (container && container !== contextualMenu) {
+        // Check if this container has multiple property-like children
+        if (container.parentElement && container.parentElement !== contextualMenu) {
+          container = container.parentElement;
+        } else {
+          break;
+        }
+      }
+      if (container instanceof HTMLElement) {
+        console.log('[Worktree] Found property container via buttons');
+        return container;
+      }
+    }
+    
+    // Fallback: use the contextual menu itself
+    return contextualMenu;
+  }
+  
+  // Try other selectors
   for (const selector of SIDEBAR_SELECTORS) {
+    if (selector === '[data-contextual-menu="true"]') continue; // Already tried
     try {
       const element = document.querySelector(selector);
       if (element && element instanceof HTMLElement) {
@@ -65,18 +99,15 @@ function findInjectionPoint(): HTMLElement | null {
   }
   
   // Fallback: Look for the sidebar based on common patterns
-  // Linear's sidebar typically has properties displayed as rows
   const aside = document.querySelector('aside');
   if (aside) {
     console.log('[Worktree] Found aside element, looking for property section');
-    // Look for a scrollable container or property section
     const propertySection = aside.querySelector('[class*="property"], [class*="Property"], [role="group"]');
     if (propertySection instanceof HTMLElement) {
       console.log('[Worktree] Found property section in aside');
       return propertySection;
     }
     
-    // If no specific property section, use aside's first div child
     const firstDiv = aside.querySelector(':scope > div');
     if (firstDiv instanceof HTMLElement) {
       console.log('[Worktree] Using aside > div as fallback');
