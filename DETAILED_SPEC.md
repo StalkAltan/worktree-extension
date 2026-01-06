@@ -1109,12 +1109,12 @@ buildExtension();
 - [x] Create packages/extension/src/popup/components/ServerStatus.tsx
 - [x] Implement health check on popup open
 - [x] Display connected/disconnected status with indicator
-- [ ] Create packages/extension/src/popup/pages/Status.tsx
-- [ ] Display server URL from config
-- [ ] Display worktree root from config
-- [ ] Display number of project mappings
-- [ ] Add "Open Settings" button with navigation
-- [ ] Style popup to match a clean, modern design
+- [x] Create packages/extension/src/popup/pages/Status.tsx
+- [x] Display server URL from config
+- [x] Display worktree root from config
+- [x] Display number of project mappings
+- [x] Add "Open Settings" button with navigation
+- [x] Style popup to match a clean, modern design
 - [ ] Test popup renders correctly
 
 ## Phase 13: Extension - Popup Settings Page

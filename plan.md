@@ -124,9 +124,15 @@
 - [x] Create packages/extension/src/popup/components/ServerStatus.tsx
 - [x] Implement health check on popup open
 - [x] Display connected/disconnected status with indicator
+- [x] Create packages/extension/src/popup/pages/Status.tsx
+- [x] Display server URL from config
+- [x] Display worktree root from config
+- [x] Display number of project mappings
+- [x] Add "Open Settings" button with navigation
+- [x] Style popup to match a clean, modern design
 
 ## Next Up
-- Create packages/extension/src/popup/pages/Status.tsx (Phase 12)
+- Test popup renders correctly (Phase 12)
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
 - Test storage operations in extension context (Phase 9)

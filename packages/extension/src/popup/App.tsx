@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigation } from "./components/Navigation";
+import { StatusPage } from "./pages/Status";
 
 type Page = "status" | "settings";
 
@@ -10,12 +11,7 @@ export function App() {
     <div className="popup-container">
       <Navigation currentPage={page} onNavigate={setPage} />
       {page === "status" ? (
-        <div>
-          <p>Status page placeholder</p>
-          <button className="btn-primary" onClick={() => setPage("settings")}>
-            Open Settings
-          </button>
-        </div>
+        <StatusPage onOpenSettings={() => setPage("settings")} />
       ) : (
         <div>
           <p>Settings page placeholder</p>
