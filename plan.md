@@ -263,7 +263,6 @@
 - Test SPA navigation between issues (Phase 20)
 - Test navigation away from issue and back (Phase 20)
 - Test clean install from scratch (Phase 21)
-- Tag version 1.0.0 (Phase 21)
-
 ### Phase 21: Documentation and Finalization (code review done)
 - [x] Final code review and cleanup - reviewed, code is clean and well-documented
+- [x] Tag version 1.0.0 - created annotated tag v1.0.0

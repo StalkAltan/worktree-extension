@@ -1260,7 +1260,7 @@ buildExtension();
 - [x] Add troubleshooting section
 - [x] Final code review and cleanup (reviewed - code is clean, well-documented, no debug artifacts)
 - [ ] Test clean install from scratch
-- [ ] Tag version 1.0.0
+- [x] Tag version 1.0.0 (v1.0.0 tagged)
 
 ---
 
