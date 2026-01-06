@@ -3,6 +3,8 @@
  * Handles command parsing, token replacement, and process spawning.
  */
 
+import { log } from "../lib/logger";
+
 /**
  * Token values that can be replaced in terminal command templates.
  */
@@ -80,7 +82,7 @@ export function parseCommand(command: string): string[] {
  * Executes a terminal command with token replacement.
  * Spawns the process in detached mode so it continues after the server responds.
  * 
- * @param command - The command template (e.g., "ghostty -e 'cd {directory} && opencode'")
+ * @param command - The command template (e.g., "ghostty -e bash -c 'cd {directory} && opencode'")
  * @param tokens - Token values to replace in the command
  */
 export function executeTerminalCommand(
@@ -93,21 +95,106 @@ export function executeTerminalCommand(
   // Parse command into parts respecting quotes
   const parts = parseCommand(finalCommand);
 
+  log.info("Executing terminal command", {
+    originalCommand: command,
+    finalCommand,
+    parsedParts: parts,
+    tokens,
+  });
+
   if (parts.length === 0) {
+    log.error("Empty command after parsing", { command, finalCommand });
     throw new Error("Empty command after parsing");
   }
 
   const [executable, ...args] = parts;
 
-  // Spawn detached process
-  // Using Bun.spawn with detached mode so the terminal process
-  // continues to run independently of the server
-  Bun.spawn({
-    cmd: [executable, ...args],
-    // Note: Bun doesn't have a 'detached' option like Node's child_process
-    // Instead, we just don't wait for it and ignore all stdio
-    stdout: "ignore",
-    stderr: "ignore",
-    stdin: "ignore",
-  });
+  log.info("Spawning process", { executable, args });
+
+  try {
+    // Spawn the process and capture output for debugging
+    const proc = Bun.spawn({
+      cmd: [executable, ...args],
+      stdout: "pipe",
+      stderr: "pipe",
+      stdin: "ignore",
+    });
+
+    // Capture and log stdout/stderr asynchronously for debugging
+    // This helps diagnose issues like PATH errors
+    captureProcessOutput(proc, executable);
+  } catch (error) {
+    log.error("Failed to spawn process", {
+      executable,
+      args,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    throw error;
+  }
+}
+
+/**
+ * Captures and logs process output for debugging purposes.
+ * Runs asynchronously so it doesn't block the main execution.
+ */
+async function captureProcessOutput(
+  proc: ReturnType<typeof Bun.spawn>,
+  executable: string
+): Promise<void> {
+  try {
+    // Read stdout
+    if (proc.stdout) {
+      const stdoutReader = proc.stdout.getReader();
+      const stdoutChunks: Uint8Array[] = [];
+      
+      while (true) {
+        const { done, value } = await stdoutReader.read();
+        if (done) break;
+        if (value) stdoutChunks.push(value);
+      }
+      
+      if (stdoutChunks.length > 0) {
+        const stdout = new TextDecoder().decode(
+          Buffer.concat(stdoutChunks.map(chunk => Buffer.from(chunk)))
+        );
+        if (stdout.trim()) {
+          log.info("Process stdout", { executable, stdout: stdout.trim() });
+        }
+      }
+    }
+
+    // Read stderr
+    if (proc.stderr) {
+      const stderrReader = proc.stderr.getReader();
+      const stderrChunks: Uint8Array[] = [];
+      
+      while (true) {
+        const { done, value } = await stderrReader.read();
+        if (done) break;
+        if (value) stderrChunks.push(value);
+      }
+      
+      if (stderrChunks.length > 0) {
+        const stderr = new TextDecoder().decode(
+          Buffer.concat(stderrChunks.map(chunk => Buffer.from(chunk)))
+        );
+        if (stderr.trim()) {
+          log.warn("Process stderr", { executable, stderr: stderr.trim() });
+        }
+      }
+    }
+
+    // Wait for process to exit and log exit code
+    const exitCode = await proc.exited;
+    if (exitCode !== 0) {
+      log.warn("Process exited with non-zero code", { executable, exitCode });
+    } else {
+      log.debug("Process exited successfully", { executable, exitCode });
+    }
+  } catch (error) {
+    log.error("Error capturing process output", {
+      executable,
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
 }

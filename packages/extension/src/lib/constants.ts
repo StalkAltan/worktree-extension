@@ -6,7 +6,9 @@ export const DEFAULT_SERVER_URL = `http://localhost:${DEFAULT_PORT}`;
 
 // Default terminal command with token placeholders
 // Tokens: {directory}, {issueId}, {branchName}
-export const DEFAULT_TERMINAL_COMMAND = "ghostty -e 'cd {directory} && opencode'";
+// Note: We use explicit shell invocation (bash -c) because 'cd' is a shell builtin
+// and '&&' is shell syntax that requires a shell to interpret properly.
+export const DEFAULT_TERMINAL_COMMAND = "ghostty -e bash -c 'cd {directory} && opencode'";
 
 // Chrome storage key
 export const STORAGE_KEY = "config";
