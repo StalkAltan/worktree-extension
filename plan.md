@@ -109,6 +109,13 @@
 - [x] Add response parsing and type validation
 - [x] Handle network errors gracefully
 
+### Phase 11: Extension - Background Service Worker
+- [x] Create packages/extension/src/background/index.ts
+- [x] Set up message listener for content script communication
+- [x] Implement handler for storage operations
+- [x] Implement handler for API calls (to avoid CORS in content script)
+- [x] Add any necessary initialization logic
+
 ## Next Up
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
@@ -117,4 +124,5 @@
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
-- Phase 11: Extension - Background Service Worker
+- Test background script loads correctly (Phase 11)
+- Phase 12: Extension - Popup Status Page

@@ -1093,11 +1093,11 @@ buildExtension();
 
 ## Phase 11: Extension - Background Service Worker
 
-- [ ] Create packages/extension/src/background/index.ts
-- [ ] Set up message listener for content script communication
-- [ ] Implement handler for storage operations
-- [ ] Implement handler for API calls (to avoid CORS in content script)
-- [ ] Add any necessary initialization logic
+- [x] Create packages/extension/src/background/index.ts
+- [x] Set up message listener for content script communication
+- [x] Implement handler for storage operations
+- [x] Implement handler for API calls (to avoid CORS in content script)
+- [x] Add any necessary initialization logic
 - [ ] Test background script loads correctly
 
 ## Phase 12: Extension - Popup Status Page
