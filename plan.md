@@ -121,11 +121,11 @@
 - [x] Create packages/extension/src/popup/App.tsx with router (stub implementation)
 - [x] Create packages/extension/src/popup/styles/popup.css base styles
 - [x] Create packages/extension/src/popup/components/Navigation.tsx
+- [x] Create packages/extension/src/popup/components/ServerStatus.tsx
+- [x] Implement health check on popup open
+- [x] Display connected/disconnected status with indicator
 
 ## Next Up
-- Create packages/extension/src/popup/components/ServerStatus.tsx (Phase 12)
-- Implement health check on popup open (Phase 12)
-- Display connected/disconnected status with indicator (Phase 12)
 - Create packages/extension/src/popup/pages/Status.tsx (Phase 12)
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)

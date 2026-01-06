@@ -1106,9 +1106,9 @@ buildExtension();
 - [x] Create packages/extension/src/popup/App.tsx with router
 - [x] Create packages/extension/src/popup/styles/popup.css base styles
 - [x] Create packages/extension/src/popup/components/Navigation.tsx
-- [ ] Create packages/extension/src/popup/components/ServerStatus.tsx
-- [ ] Implement health check on popup open
-- [ ] Display connected/disconnected status with indicator
+- [x] Create packages/extension/src/popup/components/ServerStatus.tsx
+- [x] Implement health check on popup open
+- [x] Display connected/disconnected status with indicator
 - [ ] Create packages/extension/src/popup/pages/Status.tsx
 - [ ] Display server URL from config
 - [ ] Display worktree root from config
