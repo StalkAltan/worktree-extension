@@ -1058,11 +1058,11 @@ buildExtension();
 ## Phase 8: Extension - Manifest and Build
 
 - [x] Create packages/extension/manifest.json (Manifest V3)
-- [ ] Create packages/extension/build.ts Bun build script
-- [ ] Implement content script build configuration
-- [ ] Implement popup build configuration
-- [ ] Implement background script build configuration
-- [ ] Add static file copying (manifest, HTML, icons)
+- [x] Create packages/extension/build.ts Bun build script
+- [x] Implement content script build configuration
+- [x] Implement popup build configuration
+- [x] Implement background script build configuration
+- [x] Add static file copying (manifest, HTML, icons)
 - [ ] Create packages/extension/public/icons directory
 - [ ] Create placeholder icons (16, 32, 48, 128px)
 - [ ] Create packages/extension/src/popup/index.html

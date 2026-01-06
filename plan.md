@@ -82,10 +82,17 @@
 
 ### Phase 8: Extension - Manifest and Build
 - [x] Create packages/extension/manifest.json (Manifest V3)
+- [x] Create packages/extension/build.ts Bun build script
+- [x] Implement content script build configuration
+- [x] Implement popup build configuration
+- [x] Implement background script build configuration
+- [x] Add static file copying (manifest, HTML, icons)
 
 ## Next Up
-- Create packages/extension/build.ts Bun build script (Phase 8)
-- Implement content script build configuration (Phase 8)
+- Create packages/extension/public/icons directory (Phase 8)
+- Create placeholder icons (16, 32, 48, 128px) (Phase 8)
+- Create packages/extension/src/popup/index.html (Phase 8)
+- Test build script produces correct output structure (Phase 8)
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
