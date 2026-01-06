@@ -9,8 +9,8 @@
 - [x] Create packages/extension/package.json (placeholder)
 - [x] Create packages/server directory
 - [x] Create packages/server/package.json (placeholder)
+- [x] Create bunfig.toml for Bun configuration
 
 ## Next Up
-- Create bunfig.toml for Bun configuration
 - Create root tsconfig.json with base TypeScript settings
 - Add dependencies to extension and server package.json files

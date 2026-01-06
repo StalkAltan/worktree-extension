@@ -979,7 +979,7 @@ buildExtension();
 
 - [x] Create root directory structure
 - [x] Initialize root package.json with workspace configuration
-- [ ] Create bunfig.toml for Bun configuration
+- [x] Create bunfig.toml for Bun configuration
 - [ ] Create root tsconfig.json with base TypeScript settings
 - [x] Create packages/extension directory
 - [ ] Create packages/extension/package.json with dependencies

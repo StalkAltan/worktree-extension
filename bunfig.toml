@@ -1,0 +1,9 @@
+# Bun configuration for worktree-extension
+
+[install]
+# Use exact versions for reproducible builds
+exact = true
+
+[install.lockfile]
+# Save the lockfile
+save = true
