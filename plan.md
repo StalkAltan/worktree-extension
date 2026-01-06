@@ -16,7 +16,8 @@
 ### Phase 1 (continued)
 - [x] Create packages/extension/tsconfig.json extending root config
 - [x] Create packages/server/package.json with dependencies
+- [x] Create packages/server/tsconfig.json extending root config
 
 ## Next Up
-- Create packages/server/tsconfig.json extending root config
 - Install all dependencies with `bun install`
+- Verify workspace setup works correctly
