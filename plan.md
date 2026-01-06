@@ -119,6 +119,7 @@
 ### Phase 12: Extension - Popup Status Page
 - [x] Create packages/extension/src/popup/index.tsx entry point
 - [x] Create packages/extension/src/popup/App.tsx with router (stub implementation)
+- [x] Create packages/extension/src/popup/styles/popup.css base styles
 
 ## Next Up
 - Test build script produces correct output structure (Phase 8)

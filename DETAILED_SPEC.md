@@ -1104,7 +1104,7 @@ buildExtension();
 
 - [x] Create packages/extension/src/popup/index.tsx entry point
 - [x] Create packages/extension/src/popup/App.tsx with router
-- [ ] Create packages/extension/src/popup/styles/popup.css base styles
+- [x] Create packages/extension/src/popup/styles/popup.css base styles
 - [ ] Create packages/extension/src/popup/components/Navigation.tsx
 - [ ] Create packages/extension/src/popup/components/ServerStatus.tsx
 - [ ] Implement health check on popup open
