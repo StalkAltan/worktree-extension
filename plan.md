@@ -239,6 +239,8 @@
 - [x] Handle missing config gracefully in content script - WorktreeDialog shows error state
 - [x] Add loading state when fetching config in dialog - configLoading state in WorktreeDialog.tsx
 - [x] Improve error messages for common failures - api.ts has specific error messages
+- [x] Clean up console logs and debug code - reviewed, only appropriate console.error/debug statements remain
+- [x] Add helpful comments to complex code sections - all services and complex logic have JSDoc comments
 
 ## Next Up (Testing Tasks)
 - Test content script loads on Linear pages (Phase 14)
@@ -260,8 +262,6 @@
 - Test on different Linear issue page variations (Phase 20)
 - Test SPA navigation between issues (Phase 20)
 - Test navigation away from issue and back (Phase 20)
-- Clean up console logs and debug code (Phase 20)
-- Add helpful comments to complex code sections (Phase 20)
 - Final code review and cleanup (Phase 21)
 - Test clean install from scratch (Phase 21)
 - Tag version 1.0.0 (Phase 21)
