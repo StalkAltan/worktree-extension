@@ -30,5 +30,8 @@
 - [x] Create packages/server/src/lib/types.ts with server-specific types
 - [x] Create packages/server/src/lib/errors.ts with custom error classes
 
+### Phase 3: Server - Core Infrastructure
+- [x] Create packages/server/src/index.ts entry point with Bun.serve
+
 ## Next Up
-- Create packages/server/src/index.ts entry point with Bun.serve
+- Create packages/server/src/router.ts with request routing logic

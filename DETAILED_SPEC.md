@@ -1001,7 +1001,7 @@ buildExtension();
 
 ## Phase 3: Server - Core Infrastructure
 
-- [ ] Create packages/server/src/index.ts entry point with Bun.serve
+- [x] Create packages/server/src/index.ts entry point with Bun.serve
 - [ ] Create packages/server/src/router.ts with request routing logic
 - [ ] Create packages/server/src/middleware/cors.ts for CORS handling
 - [ ] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
