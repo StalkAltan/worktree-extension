@@ -20,5 +20,8 @@
 - [x] Install all dependencies with `bun install`
 - [x] Verify workspace setup works correctly
 
+### Phase 2: Shared Types and Utilities
+- [x] Create packages/extension/src/lib/types.ts with all TypeScript interfaces
+
 ## Next Up
-- Create packages/extension/src/lib/types.ts with all TypeScript interfaces
+- Create packages/extension/src/lib/constants.ts with default config values
