@@ -1071,13 +1071,13 @@ buildExtension();
 
 ## Phase 9: Extension - Storage Layer
 
-- [ ] Create packages/extension/src/lib/storage.ts
-- [ ] Implement getConfig() to retrieve from chrome.storage.sync
-- [ ] Implement saveConfig() to persist to chrome.storage.sync
-- [ ] Implement updateConfig() for partial updates
-- [ ] Implement addProjectMapping() helper
-- [ ] Implement removeProjectMapping() helper
-- [ ] Add type-safe wrapper with default values
+- [x] Create packages/extension/src/lib/storage.ts
+- [x] Implement getConfig() to retrieve from chrome.storage.sync
+- [x] Implement saveConfig() to persist to chrome.storage.sync
+- [x] Implement updateConfig() for partial updates
+- [x] Implement addProjectMapping() helper
+- [x] Implement removeProjectMapping() helper
+- [x] Add type-safe wrapper with default values
 - [ ] Test storage operations in extension context
 
 ## Phase 10: Extension - API Client

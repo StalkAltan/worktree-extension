@@ -91,10 +91,20 @@
 - [x] Create placeholder icons (16, 32, 48, 128px) - Generated via scripts/generate-icons.ts
 - [x] Create packages/extension/src/popup/index.html
 
+### Phase 9: Extension - Storage Layer
+- [x] Create packages/extension/src/lib/storage.ts
+- [x] Implement getConfig() to retrieve from chrome.storage.sync
+- [x] Implement saveConfig() to persist to chrome.storage.sync
+- [x] Implement updateConfig() for partial updates
+- [x] Implement addProjectMapping() helper
+- [x] Implement removeProjectMapping() helper
+- [x] Add type-safe wrapper with default values
+
 ## Next Up
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
-- Phase 9: Extension - Storage Layer
+- Test storage operations in extension context (Phase 9)
+- Phase 10: Extension - API Client
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
