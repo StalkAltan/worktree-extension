@@ -1,0 +1,15 @@
+{
+  "name": "worktree-extension",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --parallel dev:server dev:extension",
+    "dev:server": "bun run --cwd packages/server dev",
+    "dev:extension": "bun run --cwd packages/extension dev",
+    "build": "bun run build:server && bun run build:extension",
+    "build:server": "bun run --cwd packages/server build",
+    "build:extension": "bun run --cwd packages/extension build"
+  }
+}

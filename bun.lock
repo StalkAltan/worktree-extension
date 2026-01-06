@@ -1,0 +1,22 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "worktree-extension",
+    },
+    "packages/extension": {
+      "name": "@worktree/extension",
+      "version": "1.0.0",
+    },
+    "packages/server": {
+      "name": "@worktree/server",
+      "version": "1.0.0",
+    },
+  },
+  "packages": {
+    "@worktree/extension": ["@worktree/extension@workspace:packages/extension"],
+
+    "@worktree/server": ["@worktree/server@workspace:packages/server"],
+  }
+}
