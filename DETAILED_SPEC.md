@@ -1119,20 +1119,20 @@ buildExtension();
 
 ## Phase 13: Extension - Popup Settings Page
 
-- [ ] Create packages/extension/src/popup/pages/Settings.tsx
+- [x] Create packages/extension/src/popup/pages/Settings.tsx
 - [ ] Create packages/extension/src/popup/components/Input.tsx styled input
-- [ ] Implement server URL input field with validation
-- [ ] Implement worktree root directory input field
-- [ ] Implement terminal command input field with token help text
+- [x] Implement server URL input field with validation
+- [x] Implement worktree root directory input field
+- [x] Implement terminal command input field with token help text
 - [ ] Create packages/extension/src/popup/components/ProjectMappingRow.tsx
-- [ ] Implement project mappings table/list view
-- [ ] Implement add new mapping functionality
+- [x] Implement project mappings table/list view
+- [x] Implement add new mapping functionality
 - [ ] Implement edit existing mapping functionality
-- [ ] Implement delete mapping functionality
-- [ ] Add form validation for required fields
-- [ ] Implement save button with loading state
-- [ ] Show success/error feedback on save
-- [ ] Add back navigation to status page
+- [x] Implement delete mapping functionality
+- [x] Add form validation for required fields
+- [x] Implement save button with loading state
+- [x] Show success/error feedback on save
+- [x] Add back navigation to status page
 - [ ] Test settings save and load correctly
 - [ ] Test project mapping CRUD operations
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigation } from "./components/Navigation";
 import { StatusPage } from "./pages/Status";
+import { SettingsPage } from "./pages/Settings";
 
 type Page = "status" | "settings";
 
@@ -13,9 +14,7 @@ export function App() {
       {page === "status" ? (
         <StatusPage onOpenSettings={() => setPage("settings")} />
       ) : (
-        <div>
-          <p>Settings page placeholder</p>
-        </div>
+        <SettingsPage onBack={() => setPage("status")} />
       )}
     </div>
   );

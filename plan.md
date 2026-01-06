@@ -131,7 +131,26 @@
 - [x] Add "Open Settings" button with navigation
 - [x] Style popup to match a clean, modern design
 
+### Phase 13: Extension - Popup Settings Page
+- [x] Create packages/extension/src/popup/pages/Settings.tsx
+- [x] Implement server URL input field with validation
+- [x] Implement worktree root directory input field
+- [x] Implement terminal command input field with token help text
+- [x] Implement project mappings table/list view
+- [x] Implement add new mapping functionality
+- [x] Implement delete mapping functionality
+- [x] Add form validation for required fields
+- [x] Implement save button with loading state
+- [x] Show success/error feedback on save
+- [x] Update App.tsx to use SettingsPage component (replaces placeholder)
+
 ## Next Up
+- Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
+- Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
+- Implement edit existing mapping functionality (Phase 13)
+- Add back navigation to status page (Phase 13 - already handled by Navigation component)
+- Test settings save and load correctly (Phase 13)
+- Test project mapping CRUD operations (Phase 13)
 - Test popup renders correctly (Phase 12)
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
