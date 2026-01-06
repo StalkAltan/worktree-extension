@@ -1065,7 +1065,7 @@ buildExtension();
 - [x] Add static file copying (manifest, HTML, icons)
 - [x] Create packages/extension/public/icons directory
 - [x] Create placeholder icons (16, 32, 48, 128px)
-- [ ] Create packages/extension/src/popup/index.html
+- [x] Create packages/extension/src/popup/index.html
 - [ ] Test build script produces correct output structure
 - [ ] Test loading unpacked extension in Chrome
 

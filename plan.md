@@ -89,10 +89,12 @@
 - [x] Add static file copying (manifest, HTML, icons)
 - [x] Create packages/extension/public/icons directory
 - [x] Create placeholder icons (16, 32, 48, 128px) - Generated via scripts/generate-icons.ts
+- [x] Create packages/extension/src/popup/index.html
 
 ## Next Up
-- Create packages/extension/src/popup/index.html (Phase 8)
 - Test build script produces correct output structure (Phase 8)
+- Test loading unpacked extension in Chrome (Phase 8)
+- Phase 9: Extension - Storage Layer
 - Test endpoints with curl/Postman (Phase 6)
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
