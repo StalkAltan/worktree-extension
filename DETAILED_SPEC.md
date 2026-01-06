@@ -1032,17 +1032,17 @@ buildExtension();
 
 ## Phase 6: Server - Worktree Routes
 
-- [ ] Create packages/server/src/routes/worktree.ts
-- [ ] Implement POST /worktree/create endpoint
-- [ ] Add request body validation for required fields
-- [ ] Integrate git service for worktree creation
-- [ ] Handle WorktreeExistsError and return 409 response
-- [ ] Handle BranchExistsError with appropriate response
-- [ ] Integrate terminal service to open terminal after creation
-- [ ] Implement POST /worktree/open endpoint
-- [ ] Add request body validation for open endpoint
-- [ ] Add directory existence check for open endpoint
-- [ ] Integrate terminal service for opening existing worktree
+- [x] Create packages/server/src/routes/worktree.ts
+- [x] Implement POST /worktree/create endpoint
+- [x] Add request body validation for required fields
+- [x] Integrate git service for worktree creation
+- [x] Handle WorktreeExistsError and return 409 response
+- [x] Handle BranchExistsError with appropriate response
+- [x] Integrate terminal service to open terminal after creation
+- [x] Implement POST /worktree/open endpoint
+- [x] Add request body validation for open endpoint
+- [x] Add directory existence check for open endpoint
+- [x] Integrate terminal service for opening existing worktree
 - [ ] Test endpoints with curl/Postman
 
 ## Phase 7: Server - Daemon Script
