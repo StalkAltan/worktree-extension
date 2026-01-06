@@ -23,5 +23,8 @@
 ### Phase 2: Shared Types and Utilities
 - [x] Create packages/extension/src/lib/types.ts with all TypeScript interfaces
 
+### Phase 2: Shared Types and Utilities (continued)
+- [x] Create packages/extension/src/lib/constants.ts with default config values
+
 ## Next Up
-- Create packages/extension/src/lib/constants.ts with default config values
+- Create packages/extension/src/lib/branch-name.ts with branch name generation logic

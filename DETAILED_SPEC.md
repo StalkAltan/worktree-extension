@@ -993,7 +993,7 @@ buildExtension();
 ## Phase 2: Shared Types and Utilities
 
 - [x] Create packages/extension/src/lib/types.ts with all TypeScript interfaces
-- [ ] Create packages/extension/src/lib/constants.ts with default config values
+- [x] Create packages/extension/src/lib/constants.ts with default config values
 - [ ] Create packages/extension/src/lib/branch-name.ts with branch name generation logic
 - [ ] Create unit tests for branch name generation (edge cases)
 - [ ] Create packages/server/src/lib/types.ts with server-specific types
