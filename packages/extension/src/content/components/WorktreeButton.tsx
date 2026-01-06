@@ -52,10 +52,17 @@ const SIDEBAR_SELECTORS = [
  * Returns the element where we should inject our button as the last child.
  */
 function findInjectionPoint(): HTMLElement | null {
-  // First, try to find the contextual menu (properties panel)
-  const contextualMenu = document.querySelector('[data-contextual-menu="true"]');
+  // First, find the aside (right sidebar) which contains the Properties panel
+  const aside = document.querySelector('aside');
+  if (!aside) {
+    console.log('[Worktree] No aside found');
+    return null;
+  }
+  
+  // Find the contextual menu INSIDE the aside (not just any contextual menu on the page)
+  const contextualMenu = aside.querySelector('[data-contextual-menu="true"]');
   if (contextualMenu instanceof HTMLElement) {
-    console.log('[Worktree] Found contextual menu');
+    console.log('[Worktree] Found contextual menu inside aside');
     
     // Find property buttons and their container
     // Try both with and without ="true"
@@ -111,28 +118,11 @@ function findInjectionPoint(): HTMLElement | null {
     return contextualMenu;
   }
   
-  // Try other selectors
-  for (const selector of SIDEBAR_SELECTORS) {
-    if (selector === '[data-contextual-menu="true"]') continue;
-    try {
-      const element = document.querySelector(selector);
-      if (element && element instanceof HTMLElement) {
-        console.log('[Worktree] Found injection point with selector:', selector);
-        return element;
-      }
-    } catch {
-      continue;
-    }
-  }
-  
-  // Fallback: Look for the sidebar
-  const aside = document.querySelector('aside');
-  if (aside) {
-    console.log('[Worktree] Found aside element');
-    const firstDiv = aside.querySelector(':scope > div');
-    if (firstDiv instanceof HTMLElement) {
-      return firstDiv;
-    }
+  // Fallback: use the aside's first div
+  console.log('[Worktree] No contextual menu in aside, using aside > div');
+  const firstDiv = aside.querySelector(':scope > div');
+  if (firstDiv instanceof HTMLElement) {
+    return firstDiv;
   }
   
   console.log('[Worktree] No injection point found');
