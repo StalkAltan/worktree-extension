@@ -28,6 +28,7 @@
 - [x] Create packages/extension/src/lib/branch-name.ts with branch name generation logic
 - [x] Create unit tests for branch name generation (edge cases)
 - [x] Create packages/server/src/lib/types.ts with server-specific types
+- [x] Create packages/server/src/lib/errors.ts with custom error classes
 
 ## Next Up
-- Create packages/server/src/lib/errors.ts with custom error classes
+- Create packages/server/src/index.ts entry point with Bun.serve
