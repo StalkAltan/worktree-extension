@@ -25,29 +25,6 @@ function GitBranchIcon() {
 }
 
 /**
- * Selector for Linear's properties panel where we inject the button.
- * Linear uses a "Properties" section in the issue sidebar with property rows.
- * The structure is typically: aside > div with specific data attributes or classes.
- * 
- * We look for common patterns in Linear's DOM structure.
- */
-const SIDEBAR_SELECTORS = [
-  // Linear's contextual menu container for properties
-  '[data-contextual-menu="true"]',
-  // Linear's issue detail panel properties section
-  '[data-testid="issue-properties"]',
-  '[data-testid="properties-section"]',
-  // The aside element that contains issue metadata
-  'aside[class*="IssueDetail"]',
-  'aside[class*="issue"]',
-  // Property list container patterns
-  '[class*="PropertyList"]',
-  '[class*="PropertiesPanel"]',
-  // Generic selectors for the right sidebar
-  'aside > div > div:first-child',
-] as const;
-
-/**
  * Find the best injection point in Linear's DOM.
  * Returns the element where we should inject our button as the last child.
  * 
@@ -59,28 +36,39 @@ const SIDEBAR_SELECTORS = [
  * We want to inject into the second child (property rows container).
  */
 function findInjectionPoint(): HTMLElement | null {
-  // First, find the aside (right sidebar) which contains the Properties panel
-  const aside = document.querySelector('aside');
-  if (!aside) {
-    console.log('[Worktree] No aside found');
+  // Find all contextual menus on the page
+  const contextualMenus = document.querySelectorAll('[data-contextual-menu="true"]');
+  
+  // Find the one that contains "Properties" - this is the right sidebar properties panel
+  let propertiesMenu: HTMLElement | null = null;
+  
+  for (const menu of contextualMenus) {
+    if (!(menu instanceof HTMLElement)) continue;
+    
+    // Check if this menu contains the "Properties" text
+    const hasPropertiesLabel = menu.textContent?.includes('Properties');
+    // Also check for property buttons (Status, Priority, etc.)
+    const hasPropertyButtons = menu.querySelectorAll('[data-detail-button="true"]').length > 0;
+    
+    if (hasPropertiesLabel && hasPropertyButtons) {
+      propertiesMenu = menu;
+      break;
+    }
+  }
+  
+  if (!propertiesMenu) {
+    console.log('[Worktree] No properties menu found');
     return null;
   }
   
-  // Find the contextual menu INSIDE the aside (not just any contextual menu on the page)
-  const contextualMenu = aside.querySelector('[data-contextual-menu="true"]');
-  if (!(contextualMenu instanceof HTMLElement)) {
-    console.log('[Worktree] No contextual menu in aside');
-    return null;
-  }
-  
-  console.log('[Worktree] Found contextual menu inside aside');
+  console.log('[Worktree] Found properties menu');
   
   // The contextual menu has display: flex with two children:
   // 1. Header div with "Properties" label and copy buttons
   // 2. Property rows container with Status, Priority, etc.
   // We want the second child (property rows container)
-  const children = contextualMenu.querySelectorAll(':scope > div');
-  console.log('[Worktree] Contextual menu has', children.length, 'direct children');
+  const children = propertiesMenu.querySelectorAll(':scope > div');
+  console.log('[Worktree] Properties menu has', children.length, 'direct children');
   
   if (children.length >= 2) {
     // Second child is the property rows container
@@ -92,13 +80,13 @@ function findInjectionPoint(): HTMLElement | null {
   }
   
   // Fallback: look for the container with property buttons
-  const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
+  const propertyButtons = propertiesMenu.querySelectorAll('[data-detail-button="true"]');
   if (propertyButtons.length > 0) {
     // Find the common parent of all property buttons
     const firstButton = propertyButtons[0];
     // Navigate up to find the container that's a direct child of contextual menu
     let container = firstButton.parentElement;
-    while (container && container.parentElement !== contextualMenu) {
+    while (container && container.parentElement !== propertiesMenu) {
       container = container.parentElement;
     }
     if (container instanceof HTMLElement) {
@@ -114,7 +102,7 @@ function findInjectionPoint(): HTMLElement | null {
   }
   
   console.log('[Worktree] Using contextual menu directly as fallback');
-  return contextualMenu;
+  return propertiesMenu;
 }
 
 /**
