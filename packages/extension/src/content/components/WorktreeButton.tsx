@@ -57,35 +57,49 @@ function findInjectionPoint(): HTMLElement | null {
   if (contextualMenu instanceof HTMLElement) {
     console.log('[Worktree] Found contextual menu');
     
-    // Find the container that holds the property rows
-    // Look for a container that has data-detail-button children
-    const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button]');
+    // Find property buttons and their container
+    const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
+    console.log('[Worktree] Found', propertyButtons.length, 'property buttons');
+    
     if (propertyButtons.length > 0) {
-      // Get the common parent of property buttons
-      const firstButton = propertyButtons[0];
-      // Go up a few levels to find a good container
-      let container = firstButton.parentElement;
-      while (container && container !== contextualMenu) {
-        // Check if this container has multiple property-like children
-        if (container.parentElement && container.parentElement !== contextualMenu) {
-          container = container.parentElement;
-        } else {
-          break;
-        }
-      }
+      // Find a container that holds multiple property sections
+      // Go up from the last button to find a good container
+      const lastButton = propertyButtons[propertyButtons.length - 1];
+      let container = lastButton.closest('[data-menu-open]')?.parentElement;
+      
       if (container instanceof HTMLElement) {
-        console.log('[Worktree] Found property container via buttons');
+        console.log('[Worktree] Found container via data-menu-open parent');
         return container;
+      }
+      
+      // Alternative: find parent that's a direct child of contextual menu's first child
+      container = lastButton.parentElement;
+      let depth = 0;
+      while (container && depth < 10) {
+        const parent = container.parentElement;
+        if (parent === contextualMenu || parent?.parentElement === contextualMenu) {
+          console.log('[Worktree] Found container at depth', depth);
+          return container;
+        }
+        container = parent;
+        depth++;
       }
     }
     
-    // Fallback: use the contextual menu itself
+    // Fallback: find the deepest div child that has children
+    const firstChild = contextualMenu.querySelector(':scope > div > div');
+    if (firstChild instanceof HTMLElement) {
+      console.log('[Worktree] Using contextual menu > div > div');
+      return firstChild;
+    }
+    
+    console.log('[Worktree] Using contextual menu directly');
     return contextualMenu;
   }
   
   // Try other selectors
   for (const selector of SIDEBAR_SELECTORS) {
-    if (selector === '[data-contextual-menu="true"]') continue; // Already tried
+    if (selector === '[data-contextual-menu="true"]') continue;
     try {
       const element = document.querySelector(selector);
       if (element && element instanceof HTMLElement) {
@@ -93,24 +107,16 @@ function findInjectionPoint(): HTMLElement | null {
         return element;
       }
     } catch {
-      // Invalid selector, skip
       continue;
     }
   }
   
-  // Fallback: Look for the sidebar based on common patterns
+  // Fallback: Look for the sidebar
   const aside = document.querySelector('aside');
   if (aside) {
-    console.log('[Worktree] Found aside element, looking for property section');
-    const propertySection = aside.querySelector('[class*="property"], [class*="Property"], [role="group"]');
-    if (propertySection instanceof HTMLElement) {
-      console.log('[Worktree] Found property section in aside');
-      return propertySection;
-    }
-    
+    console.log('[Worktree] Found aside element');
     const firstDiv = aside.querySelector(':scope > div');
     if (firstDiv instanceof HTMLElement) {
-      console.log('[Worktree] Using aside > div as fallback');
       return firstDiv;
     }
   }
@@ -152,6 +158,7 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
     // Check if already injected
     const existingContainer = document.getElementById("worktree-button-container");
     if (existingContainer) {
+      console.log('[Worktree] Button container already exists');
       setPortalContainer(existingContainer);
       return;
     }
@@ -164,6 +171,7 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
     
     const container = createButtonContainer();
     injectionPoint.appendChild(container);
+    console.log('[Worktree] Injected button container into:', injectionPoint.tagName, injectionPoint.className);
     setPortalContainer(container);
   }, [createButtonContainer]);
   
@@ -207,9 +215,11 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
   // If we don't have a portal container yet, render nothing
   // The MutationObserver will trigger re-injection when the DOM is ready
   if (!portalContainer) {
+    console.log('[Worktree] No portal container yet');
     return null;
   }
-  
+
+  console.log('[Worktree] Rendering button via portal');
   // Render the button into the portal container using a React portal
   // Using inline styles since this renders outside the shadow DOM
   return createPortal(
