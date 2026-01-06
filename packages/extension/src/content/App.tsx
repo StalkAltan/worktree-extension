@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { DialogState } from "../lib/types";
 import { useLinearContext } from "./hooks/useLinearContext";
 import { usePageNavigation } from "./hooks/usePageNavigation";
 import { WorktreeButton } from "./components/WorktreeButton";
+import { WorktreeDialog } from "./components/WorktreeDialog";
 
 /**
  * Root component for the content script.
@@ -20,65 +21,30 @@ export function App() {
     return null;
   }
   
-  const openDialog = () => {
+  const openDialog = useCallback(() => {
     setDialogState({ type: "form" });
-  };
+  }, []);
   
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setDialogState({ type: "closed" });
-  };
+  }, []);
+  
+  const handleStateChange = useCallback((state: DialogState) => {
+    setDialogState(state);
+  }, []);
   
   return (
     <>
       {/* Worktree button injected into Linear's sidebar */}
       <WorktreeButton onClick={openDialog} />
       
-      {/* Placeholder dialog - will be replaced by WorktreeDialog in Phase 16 */}
-      {dialogState.type !== "closed" && (
-        <div className="worktree-dialog-overlay" onClick={closeDialog}>
-          <div className="worktree-dialog" onClick={(e) => e.stopPropagation()}>
-            <div className="worktree-dialog-header">
-              <h2 className="worktree-dialog-title">Create Worktree</h2>
-              <button className="worktree-dialog-close" onClick={closeDialog}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" />
-                </svg>
-              </button>
-            </div>
-            <div className="worktree-dialog-content">
-              <div className="worktree-form-group">
-                <label className="worktree-label">Issue</label>
-                <input 
-                  type="text" 
-                  className="worktree-input worktree-input-readonly" 
-                  value={linearContext.issueId} 
-                  readOnly 
-                />
-              </div>
-              <div className="worktree-form-group">
-                <label className="worktree-label">Issue Title</label>
-                <input 
-                  type="text" 
-                  className="worktree-input worktree-input-readonly" 
-                  value={linearContext.issueTitle} 
-                  readOnly 
-                />
-              </div>
-              <p style={{ fontSize: "13px", color: "#6b6f76", marginTop: "16px" }}>
-                Full dialog implementation coming in Phase 16...
-              </p>
-            </div>
-            <div className="worktree-dialog-footer">
-              <button className="worktree-btn worktree-btn-secondary" onClick={closeDialog}>
-                Cancel
-              </button>
-              <button className="worktree-btn worktree-btn-primary" disabled>
-                Create
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Worktree dialog for creating worktrees */}
+      <WorktreeDialog
+        linearContext={linearContext}
+        dialogState={dialogState}
+        onClose={closeDialog}
+        onStateChange={handleStateChange}
+      />
     </>
   );
 }

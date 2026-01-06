@@ -170,10 +170,55 @@
 - [x] Add click handler to open dialog
 - [x] Update App.tsx to use WorktreeButton component
 
+### Phase 16: Extension - Worktree Dialog Component
+- [x] Create packages/extension/src/content/components/WorktreeDialog.tsx
+- [x] Implement modal overlay with backdrop
+- [x] Implement close on backdrop click
+- [x] Implement close on Escape key
+- [x] Create dialog header with title and close button
+- [x] Create issue ID display (read-only)
+- [x] Create repository dropdown with available repos from config
+- [x] Implement auto-selection based on project mapping
+- [x] Create base branch input (from selected repo config)
+- [x] Create branch name input with generated default
+- [x] Implement branch name generation from issue context
+- [x] Create "Save this project mapping" checkbox
+- [x] Show checkbox only when project is unmapped
+- [x] Create Cancel and Create buttons
+- [x] Style dialog to look clean and professional
+- [x] Update App.tsx to use WorktreeDialog instead of placeholder
+
+### Phase 17: Extension - Dialog State Machine
+- [x] Implement DialogState type handling in dialog
+- [x] Implement "form" state with full form
+- [x] Create LoadingSpinner component (inline in WorktreeDialog.tsx)
+- [x] Implement "loading" state with spinner and disabled inputs
+- [x] Implement "conflict" state with existing worktree message (inline in WorktreeDialog.tsx)
+- [x] Add "Open Existing" and "Cancel" buttons in conflict state
+- [x] Implement "error" state with error message display
+- [x] Add "Dismiss" button in error state
+- [x] Implement "success" state with brief message
+- [x] Add auto-close after success (1.5 seconds)
+
+### Phase 18: Extension - Dialog API Integration
+- [x] Implement form submission handler
+- [x] Call API client createWorktree() on submit
+- [x] Handle successful response (show success, close)
+- [x] Handle 409 conflict response (show conflict dialog)
+- [x] Handle error responses (show error state)
+- [x] Implement "Open Existing" handler in conflict dialog
+- [x] Call API client openWorktree() for existing
+- [x] Handle open existing success/error
+- [x] Implement "Save this project mapping" logic
+- [x] Save mapping to storage on successful creation
+
 ## Next Up
 - Test content script loads on Linear pages (Phase 14)
 - Test button appears correctly on issue pages (Phase 15)
 - Test button re-appears after navigation (Phase 15)
+- Test dialog opens and closes correctly (Phase 16)
+- Test all state transitions (Phase 17)
+- Test full create worktree flow end-to-end (Phase 18)
 - Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
 - Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
 - Implement edit existing mapping functionality (Phase 13)
@@ -189,6 +234,3 @@
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
 - Test background script loads correctly (Phase 11)
-- Create WorktreeDialog component (Phase 16)
-- Implement dialog state machine (Phase 17)
-- Implement dialog API integration (Phase 18)

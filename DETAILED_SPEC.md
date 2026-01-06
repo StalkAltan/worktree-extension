@@ -1168,50 +1168,50 @@ buildExtension();
 
 ## Phase 16: Extension - Worktree Dialog Component
 
-- [ ] Create packages/extension/src/content/components/WorktreeDialog.tsx
-- [ ] Implement modal overlay with backdrop
-- [ ] Implement close on backdrop click
-- [ ] Implement close on Escape key
-- [ ] Create dialog header with title and close button
-- [ ] Create issue ID display (read-only)
-- [ ] Create repository dropdown with available repos from config
-- [ ] Implement auto-selection based on project mapping
-- [ ] Create base branch input (from selected repo config)
-- [ ] Create branch name input with generated default
-- [ ] Implement branch name generation from issue context
-- [ ] Create "Save this project mapping" checkbox
-- [ ] Show checkbox only when project is unmapped
-- [ ] Create Cancel and Create buttons
-- [ ] Style dialog to look clean and professional
+- [x] Create packages/extension/src/content/components/WorktreeDialog.tsx
+- [x] Implement modal overlay with backdrop
+- [x] Implement close on backdrop click
+- [x] Implement close on Escape key
+- [x] Create dialog header with title and close button
+- [x] Create issue ID display (read-only)
+- [x] Create repository dropdown with available repos from config
+- [x] Implement auto-selection based on project mapping
+- [x] Create base branch input (from selected repo config)
+- [x] Create branch name input with generated default
+- [x] Implement branch name generation from issue context
+- [x] Create "Save this project mapping" checkbox
+- [x] Show checkbox only when project is unmapped
+- [x] Create Cancel and Create buttons
+- [x] Style dialog to look clean and professional
 - [ ] Test dialog opens and closes correctly
 
 ## Phase 17: Extension - Dialog State Machine
 
-- [ ] Implement DialogState type handling in dialog
-- [ ] Implement "form" state with full form
-- [ ] Create packages/extension/src/content/components/LoadingSpinner.tsx
-- [ ] Implement "loading" state with spinner and disabled inputs
-- [ ] Create packages/extension/src/content/components/ConflictDialog.tsx
-- [ ] Implement "conflict" state with existing worktree message
-- [ ] Add "Open Existing" and "Cancel" buttons in conflict state
-- [ ] Implement "error" state with error message display
-- [ ] Add "Dismiss" button in error state
-- [ ] Implement "success" state with brief message
-- [ ] Add auto-close after success (1-2 seconds)
+- [x] Implement DialogState type handling in dialog
+- [x] Implement "form" state with full form
+- [x] Create packages/extension/src/content/components/LoadingSpinner.tsx (inline in WorktreeDialog.tsx)
+- [x] Implement "loading" state with spinner and disabled inputs
+- [x] Create packages/extension/src/content/components/ConflictDialog.tsx (inline in WorktreeDialog.tsx)
+- [x] Implement "conflict" state with existing worktree message
+- [x] Add "Open Existing" and "Cancel" buttons in conflict state
+- [x] Implement "error" state with error message display
+- [x] Add "Dismiss" button in error state
+- [x] Implement "success" state with brief message
+- [x] Add auto-close after success (1-2 seconds)
 - [ ] Test all state transitions
 
 ## Phase 18: Extension - Dialog API Integration
 
-- [ ] Implement form submission handler
-- [ ] Call API client createWorktree() on submit
-- [ ] Handle successful response (show success, close)
-- [ ] Handle 409 conflict response (show conflict dialog)
-- [ ] Handle error responses (show error state)
-- [ ] Implement "Open Existing" handler in conflict dialog
-- [ ] Call API client openWorktree() for existing
-- [ ] Handle open existing success/error
-- [ ] Implement "Save this project mapping" logic
-- [ ] Save mapping to storage on successful creation
+- [x] Implement form submission handler
+- [x] Call API client createWorktree() on submit
+- [x] Handle successful response (show success, close)
+- [x] Handle 409 conflict response (show conflict dialog)
+- [x] Handle error responses (show error state)
+- [x] Implement "Open Existing" handler in conflict dialog
+- [x] Call API client openWorktree() for existing
+- [x] Handle open existing success/error
+- [x] Implement "Save this project mapping" logic
+- [x] Save mapping to storage on successful creation
 - [ ] Test full create worktree flow end-to-end
 - [ ] Test conflict handling flow end-to-end
 - [ ] Test error handling displays correctly
