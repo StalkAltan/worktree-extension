@@ -40,5 +40,17 @@
 - [x] Create packages/server/src/routes/health.ts with GET /health endpoint
 - [x] Test health endpoint with curl
 
+### Phase 4: Server - Git Service
+- [x] Create packages/server/src/services/git.ts
+- [x] Implement checkBranchExists() function
+- [x] Implement listWorktrees() function to parse `git worktree list --porcelain`
+- [x] Implement checkWorktreeExists() function (check directory + git status)
+- [x] Implement createWorktree() function with `git worktree add -b`
+- [x] Implement getRepoName() helper to extract repo name from path
+- [x] Implement buildWorktreePath() to construct full worktree directory path
+- [x] Add proper error handling for git command failures
+- [x] Add validation for repo path existence
+- [x] Add validation for base branch existence
+
 ## Next Up
-- Create packages/server/src/services/git.ts
+- Test git service functions manually

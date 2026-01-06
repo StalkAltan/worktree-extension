@@ -1010,16 +1010,16 @@ buildExtension();
 
 ## Phase 4: Server - Git Service
 
-- [ ] Create packages/server/src/services/git.ts
-- [ ] Implement checkBranchExists() function
-- [ ] Implement listWorktrees() function to parse `git worktree list --porcelain`
-- [ ] Implement checkWorktreeExists() function (check directory + git status)
-- [ ] Implement createWorktree() function with `git worktree add -b`
-- [ ] Implement getRepoName() helper to extract repo name from path
-- [ ] Implement buildWorktreePath() to construct full worktree directory path
-- [ ] Add proper error handling for git command failures
-- [ ] Add validation for repo path existence
-- [ ] Add validation for base branch existence
+- [x] Create packages/server/src/services/git.ts
+- [x] Implement checkBranchExists() function
+- [x] Implement listWorktrees() function to parse `git worktree list --porcelain`
+- [x] Implement checkWorktreeExists() function (check directory + git status)
+- [x] Implement createWorktree() function with `git worktree add -b`
+- [x] Implement getRepoName() helper to extract repo name from path
+- [x] Implement buildWorktreePath() to construct full worktree directory path
+- [x] Add proper error handling for git command failures
+- [x] Add validation for repo path existence
+- [x] Add validation for base branch existence
 - [ ] Test git service functions manually
 
 ## Phase 5: Server - Terminal Service
