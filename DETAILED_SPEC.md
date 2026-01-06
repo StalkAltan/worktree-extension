@@ -1155,14 +1155,14 @@ buildExtension();
 
 ## Phase 15: Extension - Worktree Button Component
 
-- [ ] Create packages/extension/src/content/components/WorktreeButton.tsx
-- [ ] Implement button with git branch icon
-- [ ] Style button to match Linear's property row design
-- [ ] Implement hover and active states
-- [ ] Find correct injection point in Linear's DOM
-- [ ] Implement injection logic with MutationObserver
-- [ ] Handle re-injection on SPA navigation
-- [ ] Add click handler to open dialog
+- [x] Create packages/extension/src/content/components/WorktreeButton.tsx
+- [x] Implement button with git branch icon
+- [x] Style button to match Linear's property row design
+- [x] Implement hover and active states
+- [x] Find correct injection point in Linear's DOM
+- [x] Implement injection logic with MutationObserver
+- [x] Handle re-injection on SPA navigation
+- [x] Add click handler to open dialog
 - [ ] Test button appears correctly on issue pages
 - [ ] Test button re-appears after navigation
 

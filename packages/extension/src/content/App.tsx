@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { DialogState } from "../lib/types";
 import { useLinearContext } from "./hooks/useLinearContext";
 import { usePageNavigation } from "./hooks/usePageNavigation";
+import { WorktreeButton } from "./components/WorktreeButton";
 
 /**
  * Root component for the content script.
@@ -29,21 +30,8 @@ export function App() {
   
   return (
     <>
-      {/* Temporary trigger button - will be replaced by WorktreeButton in Phase 15 */}
-      {dialogState.type === "closed" && (
-        <button 
-          className="worktree-btn worktree-btn-primary"
-          onClick={openDialog}
-          style={{ 
-            position: "fixed", 
-            bottom: "20px", 
-            right: "20px", 
-            zIndex: 999998 
-          }}
-        >
-          Open Worktree Dialog
-        </button>
-      )}
+      {/* Worktree button injected into Linear's sidebar */}
+      <WorktreeButton onClick={openDialog} />
       
       {/* Placeholder dialog - will be replaced by WorktreeDialog in Phase 16 */}
       {dialogState.type !== "closed" && (

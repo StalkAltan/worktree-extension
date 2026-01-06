@@ -159,9 +159,21 @@
 - [x] Implement MutationObserver for DOM changes
 - [x] Add cleanup on navigation away from issue pages
 
+### Phase 15: Extension - Worktree Button Component
+- [x] Create packages/extension/src/content/components/WorktreeButton.tsx
+- [x] Implement button with git branch icon (SVG component)
+- [x] Style button to match Linear's property row design
+- [x] Implement hover and active states (via CSS in index.tsx)
+- [x] Find correct injection point in Linear's DOM (multiple selector fallbacks)
+- [x] Implement injection logic with MutationObserver
+- [x] Handle re-injection on SPA navigation
+- [x] Add click handler to open dialog
+- [x] Update App.tsx to use WorktreeButton component
+
 ## Next Up
 - Test content script loads on Linear pages (Phase 14)
-- Create packages/extension/src/content/components/WorktreeButton.tsx (Phase 15)
+- Test button appears correctly on issue pages (Phase 15)
+- Test button re-appears after navigation (Phase 15)
 - Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
 - Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
 - Implement edit existing mapping functionality (Phase 13)
@@ -177,3 +189,6 @@
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
 - Test background script loads correctly (Phase 11)
+- Create WorktreeDialog component (Phase 16)
+- Implement dialog state machine (Phase 17)
+- Implement dialog API integration (Phase 18)
