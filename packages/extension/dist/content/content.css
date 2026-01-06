@@ -1,0 +1,11 @@
+/*
+ * Content script styles
+ * 
+ * Note: These styles are not used directly. Instead, they are embedded 
+ * in the index.tsx file and injected into the Shadow DOM.
+ * 
+ * This file serves as a reference and for potential future use with
+ * external style loading.
+ * 
+ * See: packages/extension/src/content/index.tsx - getStyles()
+ */

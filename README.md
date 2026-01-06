@@ -67,7 +67,10 @@ Click the extension icon in Chrome to open the popup, then click "Open Settings"
 **Example commands:**
 ```bash
 # Ghostty with opencode
-ghostty -e 'cd {directory} && opencode'
+ghostty -e bash -c 'cd {directory} && opencode'
+
+# Ghostty with opencode agent mode
+ghostty -e bash -c 'cd {directory} && opencode --agent plan --model "anthropic/claude-opus-4-5" --prompt "Create a plan for {issueId}"'
 
 # VS Code
 code {directory}
@@ -77,6 +80,9 @@ open -a Terminal {directory}
 
 # GNOME Terminal
 gnome-terminal --working-directory={directory}
+
+# Kitty with opencode
+kitty bash -c 'cd {directory} && opencode'
 ```
 
 ### Project Mappings
@@ -181,7 +187,7 @@ Create a new git worktree.
   "branchName": "Q-3-fix-bug",
   "baseBranch": "main",
   "worktreeRoot": "/home/user/worktrees",
-  "terminalCommand": "ghostty -e 'cd {directory} && opencode'"
+  "terminalCommand": "ghostty -e bash -c 'cd {directory} && opencode'"
 }
 ```
 
@@ -210,7 +216,7 @@ Open an existing worktree in terminal.
 ```json
 {
   "directory": "/home/user/worktrees/repo/Q-3-fix-bug",
-  "terminalCommand": "ghostty -e 'cd {directory} && opencode'",
+  "terminalCommand": "ghostty -e bash -c 'cd {directory} && opencode'",
   "issueId": "Q-3",
   "branchName": "Q-3-fix-bug"
 }
