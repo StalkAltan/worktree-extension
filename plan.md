@@ -212,6 +212,9 @@
 - [x] Implement "Save this project mapping" logic
 - [x] Save mapping to storage on successful creation
 
+### Phase 13: Extension - Popup Settings Page (continued)
+- [x] Implement edit existing mapping functionality (inline editing in table with Save/Cancel buttons)
+
 ## Next Up
 - Test content script loads on Linear pages (Phase 14)
 - Test button appears correctly on issue pages (Phase 15)
@@ -221,7 +224,6 @@
 - Test full create worktree flow end-to-end (Phase 18)
 - Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
 - Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
-- Implement edit existing mapping functionality (Phase 13)
 - Add back navigation to status page (Phase 13 - already handled by Navigation component)
 - Test settings save and load correctly (Phase 13)
 - Test project mapping CRUD operations (Phase 13)

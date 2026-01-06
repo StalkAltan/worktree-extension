@@ -1127,7 +1127,7 @@ buildExtension();
 - [ ] Create packages/extension/src/popup/components/ProjectMappingRow.tsx
 - [x] Implement project mappings table/list view
 - [x] Implement add new mapping functionality
-- [ ] Implement edit existing mapping functionality
+- [x] Implement edit existing mapping functionality
 - [x] Implement delete mapping functionality
 - [x] Add form validation for required fields
 - [x] Implement save button with loading state

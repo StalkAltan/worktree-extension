@@ -340,6 +340,19 @@ textarea::placeholder {
   overflow-y: auto;
 }
 
+/* Edit button for table rows */
+.btn-edit {
+  background-color: transparent;
+  color: #737373;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.btn-edit:hover:not(:disabled) {
+  color: #5e6ad2;
+  background-color: rgba(94, 106, 210, 0.1);
+}
+
 /* Delete button for table rows */
 .btn-delete {
   background-color: transparent;

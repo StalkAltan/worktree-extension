@@ -13,6 +13,26 @@ interface ProjectMappingEntry {
   baseBranch: string;
 }
 
+function EditIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10.5 1.5L12.5 3.5M1 13L1.5 10.5L10 2L12 4L3.5 12.5L1 13Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function DeleteIcon() {
   return (
     <svg
@@ -75,6 +95,14 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
     baseBranch: "main",
   });
   const [showAddForm, setShowAddForm] = useState(false);
+  
+  // Edit mapping state
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editMapping, setEditMapping] = useState<ProjectMappingEntry>({
+    projectCode: "",
+    repoPath: "",
+    baseBranch: "main",
+  });
 
   // Load config on mount
   useEffect(() => {
@@ -152,6 +180,56 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
   const handleDeleteMapping = useCallback((index: number) => {
     setMappings((prev) => prev.filter((_, i) => i !== index));
   }, []);
+
+  const handleStartEdit = useCallback((index: number) => {
+    const mapping = mappings[index];
+    setEditMapping({
+      projectCode: mapping.projectCode,
+      repoPath: mapping.repoPath,
+      baseBranch: mapping.baseBranch,
+    });
+    setEditingIndex(index);
+    setShowAddForm(false);
+  }, [mappings]);
+
+  const handleCancelEdit = useCallback(() => {
+    setEditingIndex(null);
+    setEditMapping({ projectCode: "", repoPath: "", baseBranch: "main" });
+  }, []);
+
+  const handleSaveEdit = useCallback(() => {
+    if (editingIndex === null) return;
+    
+    if (!editMapping.repoPath.trim()) {
+      setMessage({ type: "error", text: "Repository path is required" });
+      return;
+    }
+
+    // Check for duplicate project code (excluding current row)
+    const originalCode = mappings[editingIndex].projectCode;
+    if (
+      editMapping.projectCode.trim() !== originalCode &&
+      mappings.some((m, i) => i !== editingIndex && m.projectCode === editMapping.projectCode.trim())
+    ) {
+      setMessage({ type: "error", text: "Project code already exists" });
+      return;
+    }
+
+    setMappings((prev) =>
+      prev.map((m, i) =>
+        i === editingIndex
+          ? {
+              projectCode: editMapping.projectCode.trim() || originalCode,
+              repoPath: editMapping.repoPath.trim(),
+              baseBranch: editMapping.baseBranch.trim() || "main",
+            }
+          : m
+      )
+    );
+
+    setEditingIndex(null);
+    setEditMapping({ projectCode: "", repoPath: "", baseBranch: "main" });
+  }, [editingIndex, editMapping, mappings]);
 
   const handleAddMapping = useCallback(() => {
     if (!newMapping.projectCode.trim()) {
@@ -266,28 +344,92 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
               <tbody>
                 {mappings.map((mapping, index) => (
                   <tr key={mapping.projectCode}>
-                    <td style={{ fontWeight: 500 }}>{mapping.projectCode}</td>
-                    <td
-                      style={{
-                        maxWidth: "120px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                      title={mapping.repoPath}
-                    >
-                      {mapping.repoPath}
-                    </td>
-                    <td>{mapping.baseBranch}</td>
-                    <td style={{ width: "40px", textAlign: "center" }}>
-                      <button
-                        className="btn-delete"
-                        onClick={() => handleDeleteMapping(index)}
-                        aria-label={`Delete ${mapping.projectCode}`}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </td>
+                    {editingIndex === index ? (
+                      <>
+                        <td>
+                          <input
+                            type="text"
+                            value={editMapping.projectCode}
+                            onChange={(e) =>
+                              setEditMapping((prev) => ({ ...prev, projectCode: e.target.value }))
+                            }
+                            style={{ width: "60px", padding: "4px 8px", fontSize: "13px" }}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={editMapping.repoPath}
+                            onChange={(e) =>
+                              setEditMapping((prev) => ({ ...prev, repoPath: e.target.value }))
+                            }
+                            style={{ width: "100%", padding: "4px 8px", fontSize: "13px" }}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={editMapping.baseBranch}
+                            onChange={(e) =>
+                              setEditMapping((prev) => ({ ...prev, baseBranch: e.target.value }))
+                            }
+                            style={{ width: "60px", padding: "4px 8px", fontSize: "13px" }}
+                          />
+                        </td>
+                        <td style={{ width: "70px", textAlign: "center" }}>
+                          <div style={{ display: "flex", gap: "4px", justifyContent: "center" }}>
+                            <button
+                              className="btn-secondary btn-small"
+                              onClick={handleCancelEdit}
+                              style={{ padding: "4px 8px", fontSize: "11px" }}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="btn-primary btn-small"
+                              onClick={handleSaveEdit}
+                              style={{ padding: "4px 8px", fontSize: "11px" }}
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td style={{ fontWeight: 500 }}>{mapping.projectCode}</td>
+                        <td
+                          style={{
+                            maxWidth: "120px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                          title={mapping.repoPath}
+                        >
+                          {mapping.repoPath}
+                        </td>
+                        <td>{mapping.baseBranch}</td>
+                        <td style={{ width: "70px", textAlign: "center" }}>
+                          <div style={{ display: "flex", gap: "4px", justifyContent: "center" }}>
+                            <button
+                              className="btn-edit"
+                              onClick={() => handleStartEdit(index)}
+                              aria-label={`Edit ${mapping.projectCode}`}
+                            >
+                              <EditIcon />
+                            </button>
+                            <button
+                              className="btn-delete"
+                              onClick={() => handleDeleteMapping(index)}
+                              aria-label={`Delete ${mapping.projectCode}`}
+                            >
+                              <DeleteIcon />
+                            </button>
+                          </div>
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>
