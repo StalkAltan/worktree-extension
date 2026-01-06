@@ -36,5 +36,9 @@
 - [x] Create packages/server/src/middleware/cors.ts for CORS handling
 - [x] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
 
+### Phase 3: Server - Core Infrastructure (continued)
+- [x] Create packages/server/src/routes/health.ts with GET /health endpoint
+- [x] Test health endpoint with curl
+
 ## Next Up
-- Create packages/server/src/routes/health.ts with GET /health endpoint
+- Create packages/server/src/services/git.ts

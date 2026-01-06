@@ -7,6 +7,7 @@
 
 import { createRouter } from "./router";
 import { corsMiddleware } from "./middleware/cors";
+import { createHealthHandler } from "./routes/health";
 
 const PORT = 21547;
 const VERSION = "1.0.0";
@@ -17,13 +18,8 @@ const router = createRouter();
 // Apply CORS middleware
 router.use(corsMiddleware());
 
-// Health check endpoint
-router.get("/health", () => {
-  return Response.json({
-    status: "ok",
-    version: VERSION,
-  });
-});
+// Register routes
+router.get("/health", createHealthHandler(VERSION));
 
 // Start the server
 const server = Bun.serve({

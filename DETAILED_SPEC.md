@@ -1005,8 +1005,8 @@ buildExtension();
 - [x] Create packages/server/src/router.ts with request routing logic
 - [x] Create packages/server/src/middleware/cors.ts for CORS handling
 - [x] Implement CORS middleware to allow requests from chrome-extension:// and https://linear.app
-- [ ] Create packages/server/src/routes/health.ts with GET /health endpoint
-- [ ] Test health endpoint with curl
+- [x] Create packages/server/src/routes/health.ts with GET /health endpoint
+- [x] Test health endpoint with curl
 
 ## Phase 4: Server - Git Service
 
