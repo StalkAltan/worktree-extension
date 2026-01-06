@@ -52,5 +52,12 @@
 - [x] Add validation for repo path existence
 - [x] Add validation for base branch existence
 
+### Phase 5: Server - Terminal Service
+- [x] Create packages/server/src/services/terminal.ts
+- [x] Implement parseCommand() to handle quoted arguments
+- [x] Implement replaceTokens() for command template processing
+- [x] Implement executeTerminalCommand() with Bun.spawn detached mode
+
 ## Next Up
 - Test git service functions manually
+- Test terminal command execution manually

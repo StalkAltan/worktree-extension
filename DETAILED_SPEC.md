@@ -1024,10 +1024,10 @@ buildExtension();
 
 ## Phase 5: Server - Terminal Service
 
-- [ ] Create packages/server/src/services/terminal.ts
-- [ ] Implement parseCommand() to handle quoted arguments
-- [ ] Implement replaceTokens() for command template processing
-- [ ] Implement executeTerminalCommand() with Bun.spawn detached mode
+- [x] Create packages/server/src/services/terminal.ts
+- [x] Implement parseCommand() to handle quoted arguments
+- [x] Implement replaceTokens() for command template processing
+- [x] Implement executeTerminalCommand() with Bun.spawn detached mode
 - [ ] Test terminal command execution manually
 
 ## Phase 6: Server - Worktree Routes
