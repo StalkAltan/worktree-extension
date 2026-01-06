@@ -144,7 +144,24 @@
 - [x] Show success/error feedback on save
 - [x] Update App.tsx to use SettingsPage component (replaces placeholder)
 
+### Phase 14: Extension - Content Script Infrastructure
+- [x] Create packages/extension/src/content/index.tsx entry point
+- [x] Implement Shadow DOM container creation
+- [x] Implement React root mounting in Shadow DOM
+- [x] Create packages/extension/src/content/styles/content.css
+- [x] Implement style injection into Shadow DOM (embedded in index.tsx)
+- [x] Create packages/extension/src/content/App.tsx root component
+- [x] Create packages/extension/src/content/hooks/useLinearContext.ts
+- [x] Implement URL parsing for Linear issue pages
+- [x] Implement DOM parsing for issue title (fallback)
+- [x] Create packages/extension/src/content/hooks/usePageNavigation.ts
+- [x] Implement URL change detection for SPA navigation
+- [x] Implement MutationObserver for DOM changes
+- [x] Add cleanup on navigation away from issue pages
+
 ## Next Up
+- Test content script loads on Linear pages (Phase 14)
+- Create packages/extension/src/content/components/WorktreeButton.tsx (Phase 15)
 - Create packages/extension/src/popup/components/Input.tsx styled input (Phase 13 - optional, using native inputs)
 - Create packages/extension/src/popup/components/ProjectMappingRow.tsx (Phase 13 - optional, inline in Settings.tsx)
 - Implement edit existing mapping functionality (Phase 13)

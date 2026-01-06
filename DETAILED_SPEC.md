@@ -1138,19 +1138,19 @@ buildExtension();
 
 ## Phase 14: Extension - Content Script Infrastructure
 
-- [ ] Create packages/extension/src/content/index.tsx entry point
-- [ ] Implement Shadow DOM container creation
-- [ ] Implement React root mounting in Shadow DOM
-- [ ] Create packages/extension/src/content/styles/content.css
-- [ ] Implement style injection into Shadow DOM
-- [ ] Create packages/extension/src/content/App.tsx root component
-- [ ] Create packages/extension/src/content/hooks/useLinearContext.ts
-- [ ] Implement URL parsing for Linear issue pages
-- [ ] Implement DOM parsing for issue title (fallback)
-- [ ] Create packages/extension/src/content/hooks/usePageNavigation.ts
-- [ ] Implement URL change detection for SPA navigation
-- [ ] Implement MutationObserver for DOM changes
-- [ ] Add cleanup on navigation away from issue pages
+- [x] Create packages/extension/src/content/index.tsx entry point
+- [x] Implement Shadow DOM container creation
+- [x] Implement React root mounting in Shadow DOM
+- [x] Create packages/extension/src/content/styles/content.css
+- [x] Implement style injection into Shadow DOM
+- [x] Create packages/extension/src/content/App.tsx root component
+- [x] Create packages/extension/src/content/hooks/useLinearContext.ts
+- [x] Implement URL parsing for Linear issue pages
+- [x] Implement DOM parsing for issue title (fallback)
+- [x] Create packages/extension/src/content/hooks/usePageNavigation.ts
+- [x] Implement URL change detection for SPA navigation
+- [x] Implement MutationObserver for DOM changes
+- [x] Add cleanup on navigation away from issue pages
 - [ ] Test content script loads on Linear pages
 
 ## Phase 15: Extension - Worktree Button Component
