@@ -215,6 +215,15 @@
 ### Phase 13: Extension - Popup Settings Page (continued)
 - [x] Implement edit existing mapping functionality (inline editing in table with Save/Cancel buttons)
 
+### Phase 21: Documentation and Finalization
+- [x] Write README.md with project overview
+- [x] Document installation instructions for extension
+- [x] Document server setup and daemon usage
+- [x] Document configuration options
+- [x] Add example configuration
+- [x] Document terminal command tokens
+- [x] Add troubleshooting section
+
 ## Next Up
 - Test content script loads on Linear pages (Phase 14)
 - Test button appears correctly on issue pages (Phase 15)
