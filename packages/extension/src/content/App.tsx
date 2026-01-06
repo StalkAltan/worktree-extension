@@ -16,6 +16,8 @@ export function App() {
   // Re-check context on navigation
   usePageNavigation();
   
+  console.log('[Worktree] App rendering, linearContext:', linearContext);
+  
   // All hooks must be called before any conditional returns
   const openDialog = useCallback(() => {
     setDialogState({ type: "form" });

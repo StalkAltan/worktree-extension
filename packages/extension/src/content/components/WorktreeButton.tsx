@@ -11,7 +11,7 @@ interface WorktreeButtonProps {
 function GitBranchIcon() {
   return (
     <svg
-      className="worktree-button-icon"
+      style={{ width: '16px', height: '16px', flexShrink: 0 }}
       viewBox="0 0 16 16"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
@@ -55,6 +55,7 @@ function findInjectionPoint(): HTMLElement | null {
     try {
       const element = document.querySelector(selector);
       if (element && element instanceof HTMLElement) {
+        console.log('[Worktree] Found injection point with selector:', selector);
         return element;
       }
     } catch {
@@ -67,19 +68,23 @@ function findInjectionPoint(): HTMLElement | null {
   // Linear's sidebar typically has properties displayed as rows
   const aside = document.querySelector('aside');
   if (aside) {
+    console.log('[Worktree] Found aside element, looking for property section');
     // Look for a scrollable container or property section
     const propertySection = aside.querySelector('[class*="property"], [class*="Property"], [role="group"]');
     if (propertySection instanceof HTMLElement) {
+      console.log('[Worktree] Found property section in aside');
       return propertySection;
     }
     
     // If no specific property section, use aside's first div child
     const firstDiv = aside.querySelector(':scope > div');
     if (firstDiv instanceof HTMLElement) {
+      console.log('[Worktree] Using aside > div as fallback');
       return firstDiv;
     }
   }
   
+  console.log('[Worktree] No injection point found');
   return null;
 }
 
@@ -175,15 +180,39 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
   }
   
   // Render the button into the portal container using a React portal
+  // Using inline styles since this renders outside the shadow DOM
   return createPortal(
     <button
       type="button"
-      className="worktree-button"
       onClick={onClick}
       title="Create worktree from this issue"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        padding: '4px 8px',
+        margin: '0',
+        background: 'transparent',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '13px',
+        color: '#6b6f76',
+        width: '100%',
+        textAlign: 'left' as const,
+        fontFamily: 'inherit',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+        e.currentTarget.style.color = '#1a1a1a';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        e.currentTarget.style.color = '#6b6f76';
+      }}
     >
       <GitBranchIcon />
-      <span className="worktree-button-text">Worktree</span>
+      <span style={{ flex: 1 }}>Worktree</span>
     </button>,
     portalContainer
   );
