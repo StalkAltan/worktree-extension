@@ -25,6 +25,7 @@
 
 ### Phase 2: Shared Types and Utilities (continued)
 - [x] Create packages/extension/src/lib/constants.ts with default config values
+- [x] Create packages/extension/src/lib/branch-name.ts with branch name generation logic
 
 ## Next Up
-- Create packages/extension/src/lib/branch-name.ts with branch name generation logic
+- Create unit tests for branch name generation (edge cases)
