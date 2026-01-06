@@ -995,7 +995,7 @@ buildExtension();
 - [x] Create packages/extension/src/lib/types.ts with all TypeScript interfaces
 - [x] Create packages/extension/src/lib/constants.ts with default config values
 - [x] Create packages/extension/src/lib/branch-name.ts with branch name generation logic
-- [ ] Create unit tests for branch name generation (edge cases)
+- [x] Create unit tests for branch name generation (edge cases)
 - [ ] Create packages/server/src/lib/types.ts with server-specific types
 - [ ] Create packages/server/src/lib/errors.ts with custom error classes
 
