@@ -50,6 +50,13 @@ const SIDEBAR_SELECTORS = [
 /**
  * Find the best injection point in Linear's DOM.
  * Returns the element where we should inject our button as the last child.
+ * 
+ * Linear's Properties panel structure:
+ * [data-contextual-menu="true"] (display: flex)
+ * ├── First child div - "Properties" header + copy buttons  
+ * └── Second child div - Property rows container (Status, Priority, Assignee, etc.)
+ * 
+ * We want to inject into the second child (property rows container).
  */
 function findInjectionPoint(): HTMLElement | null {
   // First, find the aside (right sidebar) which contains the Properties panel
@@ -61,72 +68,53 @@ function findInjectionPoint(): HTMLElement | null {
   
   // Find the contextual menu INSIDE the aside (not just any contextual menu on the page)
   const contextualMenu = aside.querySelector('[data-contextual-menu="true"]');
-  if (contextualMenu instanceof HTMLElement) {
-    console.log('[Worktree] Found contextual menu inside aside');
-    
-    // Find property buttons and their container
-    // Try both with and without ="true"
-    let propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
-    if (propertyButtons.length === 0) {
-      propertyButtons = contextualMenu.querySelectorAll('[data-detail-button]');
-    }
-    if (propertyButtons.length === 0) {
-      propertyButtons = contextualMenu.querySelectorAll('button');
-    }
-    console.log('[Worktree] Found', propertyButtons.length, 'property buttons');
-    
-    if (propertyButtons.length > 0) {
-      // Find a container that holds multiple property sections
-      // Go up from the last button to find a good container
-      const lastButton = propertyButtons[propertyButtons.length - 1];
-      let container = lastButton.closest('[data-menu-open]')?.parentElement;
-      
-      if (container instanceof HTMLElement) {
-        console.log('[Worktree] Found container via data-menu-open parent');
-        return container;
-      }
-      
-      // Alternative: find parent that's a direct child of contextual menu's first child
-      container = lastButton.parentElement;
-      let depth = 0;
-      while (container && depth < 10) {
-        const parent = container.parentElement;
-        if (parent === contextualMenu || parent?.parentElement === contextualMenu) {
-          console.log('[Worktree] Found container at depth', depth);
-          return container;
-        }
-        container = parent;
-        depth++;
-      }
-    }
-    
-    // Find the inner container (contextual menu is display:flex, we need the column inside)
-    // Structure: contextual-menu > div > div (property rows container)
-    const innerContainer = contextualMenu.querySelector(':scope > div');
-    if (innerContainer instanceof HTMLElement) {
-      // Look for the container that has the property rows (after the "Properties" label)
-      const propertyRowsContainer = innerContainer.querySelector(':scope > div:last-child');
-      if (propertyRowsContainer instanceof HTMLElement) {
-        console.log('[Worktree] Using property rows container');
-        return propertyRowsContainer;
-      }
-      console.log('[Worktree] Using inner container');
-      return innerContainer;
-    }
-    
-    console.log('[Worktree] Using contextual menu directly');
-    return contextualMenu;
+  if (!(contextualMenu instanceof HTMLElement)) {
+    console.log('[Worktree] No contextual menu in aside');
+    return null;
   }
   
-  // Fallback: use the aside's first div
-  console.log('[Worktree] No contextual menu in aside, using aside > div');
-  const firstDiv = aside.querySelector(':scope > div');
-  if (firstDiv instanceof HTMLElement) {
-    return firstDiv;
+  console.log('[Worktree] Found contextual menu inside aside');
+  
+  // The contextual menu has display: flex with two children:
+  // 1. Header div with "Properties" label and copy buttons
+  // 2. Property rows container with Status, Priority, etc.
+  // We want the second child (property rows container)
+  const children = contextualMenu.querySelectorAll(':scope > div');
+  console.log('[Worktree] Contextual menu has', children.length, 'direct children');
+  
+  if (children.length >= 2) {
+    // Second child is the property rows container
+    const propertyRowsContainer = children[1];
+    if (propertyRowsContainer instanceof HTMLElement) {
+      console.log('[Worktree] Using property rows container (second child)');
+      return propertyRowsContainer;
+    }
   }
   
-  console.log('[Worktree] No injection point found');
-  return null;
+  // Fallback: look for the container with property buttons
+  const propertyButtons = contextualMenu.querySelectorAll('[data-detail-button="true"]');
+  if (propertyButtons.length > 0) {
+    // Find the common parent of all property buttons
+    const firstButton = propertyButtons[0];
+    // Navigate up to find the container that's a direct child of contextual menu
+    let container = firstButton.parentElement;
+    while (container && container.parentElement !== contextualMenu) {
+      container = container.parentElement;
+    }
+    if (container instanceof HTMLElement) {
+      console.log('[Worktree] Found property rows container via button traversal');
+      return container;
+    }
+  }
+  
+  // Last fallback: use the first child if only one exists
+  if (children.length === 1 && children[0] instanceof HTMLElement) {
+    console.log('[Worktree] Using only child of contextual menu');
+    return children[0];
+  }
+  
+  console.log('[Worktree] Using contextual menu directly as fallback');
+  return contextualMenu;
 }
 
 /**
@@ -139,20 +127,30 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
   /**
    * Creates and returns the container element for our button.
    * Styled to match Linear's property row appearance.
+   * 
+   * Linear's property rows have structure:
+   * <div class="sc-jCttAn sc-haOJsC ..."> (row container)
+   *   <span>Label</span> (optional)
+   *   <div> (button wrapper)
+   *     <button data-detail-button="true">...</button>
+   *   </div>
+   * </div>
    */
   const createButtonContainer = useCallback(() => {
     const container = document.createElement("div");
     container.id = "worktree-button-container";
     container.setAttribute("data-worktree-extension", "true");
     
-    // Style to work in Linear's flex layout and be visible
+    // Match Linear's property row styling
+    // Using similar styles to the existing property rows
     container.style.cssText = `
-      width: 100%;
-      padding: 8px 12px;
-      margin: 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.05);
-      flex-shrink: 0;
-      order: 999;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+      min-height: 0;
+      padding: 0;
+      margin-top: 4px;
     `;
     
     return container;
@@ -229,39 +227,71 @@ export function WorktreeButton({ onClick }: WorktreeButtonProps) {
   console.log('[Worktree] Rendering button via portal');
   // Render the button into the portal container using a React portal
   // Using inline styles since this renders outside the shadow DOM
+  // Styled to match Linear's property buttons (data-detail-button="true")
   return createPortal(
-    <button
-      type="button"
-      onClick={onClick}
-      title="Create worktree from this issue"
+    <div
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        padding: '4px 8px',
-        margin: '0',
-        background: 'transparent',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '13px',
-        color: '#6b6f76',
-        width: '100%',
-        textAlign: 'left' as const,
-        fontFamily: 'inherit',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
-        e.currentTarget.style.color = '#1a1a1a';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'transparent';
-        e.currentTarget.style.color = '#6b6f76';
+        flex: '1 1 0%',
+        minWidth: 0,
       }}
     >
-      <GitBranchIcon />
-      <span style={{ flex: 1 }}>Worktree</span>
-    </button>,
+      <div
+        data-menu-open="false"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        <button
+          type="button"
+          onClick={onClick}
+          title="Create worktree from this issue"
+          tabIndex={0}
+          data-detail-button="true"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '2px 6px',
+            margin: 0,
+            marginLeft: '-6px',
+            background: 'transparent',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '13px',
+            lineHeight: '20px',
+            color: 'inherit',
+            fontFamily: 'inherit',
+            fontWeight: 'normal',
+            textAlign: 'left' as const,
+            whiteSpace: 'nowrap',
+            minHeight: '24px',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }}
+        >
+          <GitBranchIcon />
+          <span
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              color: 'var(--color-text-tertiary, #6b6f76)',
+            }}
+          >
+            Create worktree
+          </span>
+        </button>
+      </div>
+    </div>,
     portalContainer
   );
 }
