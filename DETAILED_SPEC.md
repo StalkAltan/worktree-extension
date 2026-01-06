@@ -982,7 +982,7 @@ buildExtension();
 - [x] Create bunfig.toml for Bun configuration
 - [x] Create root tsconfig.json with base TypeScript settings
 - [x] Create packages/extension directory
-- [ ] Create packages/extension/package.json with dependencies
+- [x] Create packages/extension/package.json with dependencies
 - [ ] Create packages/extension/tsconfig.json extending root config
 - [x] Create packages/server directory
 - [ ] Create packages/server/package.json with dependencies
