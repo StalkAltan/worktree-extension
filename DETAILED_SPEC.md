@@ -1102,8 +1102,8 @@ buildExtension();
 
 ## Phase 12: Extension - Popup Status Page
 
-- [ ] Create packages/extension/src/popup/index.tsx entry point
-- [ ] Create packages/extension/src/popup/App.tsx with router
+- [x] Create packages/extension/src/popup/index.tsx entry point
+- [x] Create packages/extension/src/popup/App.tsx with router
 - [ ] Create packages/extension/src/popup/styles/popup.css base styles
 - [ ] Create packages/extension/src/popup/components/Navigation.tsx
 - [ ] Create packages/extension/src/popup/components/ServerStatus.tsx

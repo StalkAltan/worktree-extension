@@ -116,6 +116,10 @@
 - [x] Implement handler for API calls (to avoid CORS in content script)
 - [x] Add any necessary initialization logic
 
+### Phase 12: Extension - Popup Status Page
+- [x] Create packages/extension/src/popup/index.tsx entry point
+- [x] Create packages/extension/src/popup/App.tsx with router (stub implementation)
+
 ## Next Up
 - Test build script produces correct output structure (Phase 8)
 - Test loading unpacked extension in Chrome (Phase 8)
@@ -125,4 +129,4 @@
 - Test git service functions manually (Phase 4)
 - Test terminal command execution manually (Phase 5)
 - Test background script loads correctly (Phase 11)
-- Phase 12: Extension - Popup Status Page
+- Phase 12: Extension - Popup Status Page (continue with popup.css, components, etc.)
