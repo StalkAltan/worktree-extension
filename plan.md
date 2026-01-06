@@ -13,8 +13,10 @@
 - [x] Create root tsconfig.json with base TypeScript settings
 - [x] Create packages/extension/package.json with dependencies
 
+### Phase 1 (continued)
+- [x] Create packages/extension/tsconfig.json extending root config
+
 ## Next Up
-- Create packages/extension/tsconfig.json extending root config
 - Create packages/server/package.json with dependencies
 - Create packages/server/tsconfig.json extending root config
 - Install all dependencies with `bun install`
