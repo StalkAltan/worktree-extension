@@ -29,7 +29,6 @@ import type {
   ProjectMapping,
   CreateWorktreeRequest,
   OpenWorktreeRequest,
-  WorkspaceConfig,
 } from "../lib/types";
 
 // Message types for content script <-> background communication

@@ -6,13 +6,14 @@ import { DEFAULT_CONFIG } from "../../lib/constants";
 
 interface StatusPageProps {
   onOpenSettings: () => void;
+  workspace: string | null;
 }
 
 /**
  * Status page component displays server connection status and
  * configuration summary.
  */
-export function StatusPage({ onOpenSettings }: StatusPageProps) {
+export function StatusPage({ onOpenSettings, workspace }: StatusPageProps) {
   const [config, setConfig] = useState<ExtensionConfig>(DEFAULT_CONFIG);
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +24,13 @@ export function StatusPage({ onOpenSettings }: StatusPageProps) {
       .finally(() => setLoading(false));
   }, []);
 
-  const mappingCount = Object.keys(config.projectMappings).length;
+  // Count all project mappings across all workspaces, or just for current workspace
+  const mappingCount = workspace && config.workspaces[workspace]
+    ? Object.keys(config.workspaces[workspace].projectMappings).length
+    : Object.values(config.workspaces).reduce(
+        (total, ws) => total + Object.keys(ws.projectMappings).length,
+        0
+      );
   const hasWorktreeRoot = config.worktreeRoot.length > 0;
 
   // Truncate long paths for display
