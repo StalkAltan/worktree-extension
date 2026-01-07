@@ -104,24 +104,25 @@ export function WorktreeDialog({
   });
   const [configLoading, setConfigLoading] = useState(true);
 
-  // Get the current project mapping if it exists
+  // Get the current project mapping if it exists (workspace-aware)
   const projectMapping = useMemo<ProjectMapping | undefined>(() => {
     if (!config) return undefined;
-    return config.projectMappings[linearContext.projectCode];
-  }, [config, linearContext.projectCode]);
+    return config.workspaces?.[linearContext.workspace]?.projectMappings?.[linearContext.projectCode];
+  }, [config, linearContext.workspace, linearContext.projectCode]);
 
   // Check if project is mapped
   const isProjectMapped = !!projectMapping;
 
-  // Get available repositories from mappings
+  // Get available repositories from current workspace's mappings
   const availableRepos = useMemo<string[]>(() => {
     if (!config) return [];
+    const workspaceMappings = config.workspaces?.[linearContext.workspace]?.projectMappings ?? {};
     const repos = new Set<string>();
-    Object.values(config.projectMappings).forEach((mapping) => {
+    Object.values(workspaceMappings).forEach((mapping) => {
       repos.add(mapping.repoPath);
     });
     return Array.from(repos);
-  }, [config]);
+  }, [config, linearContext.workspace]);
 
   // Load configuration when dialog opens
   useEffect(() => {
@@ -131,8 +132,8 @@ export function WorktreeDialog({
         .then((loadedConfig) => {
           setConfig(loadedConfig);
 
-          // Auto-populate form based on project mapping
-          const mapping = loadedConfig.projectMappings[linearContext.projectCode];
+          // Auto-populate form based on project mapping (workspace-aware)
+          const mapping = loadedConfig.workspaces?.[linearContext.workspace]?.projectMappings?.[linearContext.projectCode];
           const defaultBranchName = generateBranchName(
             linearContext.issueId,
             linearContext.issueTitle
@@ -146,8 +147,9 @@ export function WorktreeDialog({
               saveMapping: false,
             });
           } else {
-            // No mapping - use first available repo or empty
-            const firstRepo = Object.values(loadedConfig.projectMappings)[0];
+            // No mapping - use first available repo from workspace or empty
+            const workspaceMappings = loadedConfig.workspaces?.[linearContext.workspace]?.projectMappings ?? {};
+            const firstRepo = Object.values(workspaceMappings)[0];
             setFormData({
               repoPath: firstRepo?.repoPath ?? "",
               baseBranch: firstRepo?.baseBranch ?? "main",
@@ -233,12 +235,16 @@ export function WorktreeDialog({
         config.serverUrl
       );
 
-      // Save project mapping if checkbox was checked
+      // Save project mapping if checkbox was checked (workspace-aware)
       if (formData.saveMapping && !isProjectMapped) {
-        await addProjectMapping(linearContext.projectCode, {
-          repoPath: formData.repoPath,
-          baseBranch: formData.baseBranch,
-        });
+        await addProjectMapping(
+          linearContext.workspace,
+          linearContext.projectCode,
+          {
+            repoPath: formData.repoPath,
+            baseBranch: formData.baseBranch,
+          }
+        );
       }
 
       onStateChange({ type: "success", directory: result.directory });
