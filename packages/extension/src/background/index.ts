@@ -20,12 +20,16 @@ import {
   addProjectMapping,
   removeProjectMapping,
   getProjectMapping,
+  needsMigration,
+  migrateProjectMappings,
+  getWorkspaceConfig,
 } from "../lib/storage";
 import type {
   ExtensionConfig,
   ProjectMapping,
   CreateWorktreeRequest,
   OpenWorktreeRequest,
+  WorkspaceConfig,
 } from "../lib/types";
 
 // Message types for content script <-> background communication
@@ -33,9 +37,12 @@ export type BackgroundMessage =
   | { type: "GET_CONFIG" }
   | { type: "SAVE_CONFIG"; config: ExtensionConfig }
   | { type: "UPDATE_CONFIG"; updates: Partial<ExtensionConfig> }
-  | { type: "ADD_PROJECT_MAPPING"; projectCode: string; mapping: ProjectMapping }
-  | { type: "REMOVE_PROJECT_MAPPING"; projectCode: string }
-  | { type: "GET_PROJECT_MAPPING"; projectCode: string }
+  | { type: "ADD_PROJECT_MAPPING"; workspace: string; projectCode: string; mapping: ProjectMapping }
+  | { type: "REMOVE_PROJECT_MAPPING"; workspace: string; projectCode: string }
+  | { type: "GET_PROJECT_MAPPING"; workspace: string; projectCode: string }
+  | { type: "NEEDS_MIGRATION" }
+  | { type: "MIGRATE_PROJECT_MAPPINGS"; workspace: string }
+  | { type: "GET_WORKSPACE_CONFIG"; workspace: string }
   | { type: "HEALTH_CHECK"; serverUrl?: string }
   | { type: "CREATE_WORKTREE"; request: CreateWorktreeRequest; serverUrl?: string }
   | { type: "OPEN_WORKTREE"; request: OpenWorktreeRequest; serverUrl?: string };
@@ -70,18 +77,33 @@ async function handleMessage(
       }
 
       case "ADD_PROJECT_MAPPING": {
-        await addProjectMapping(message.projectCode, message.mapping);
+        await addProjectMapping(message.workspace, message.projectCode, message.mapping);
         return { success: true };
       }
 
       case "REMOVE_PROJECT_MAPPING": {
-        await removeProjectMapping(message.projectCode);
+        await removeProjectMapping(message.workspace, message.projectCode);
         return { success: true };
       }
 
       case "GET_PROJECT_MAPPING": {
-        const mapping = await getProjectMapping(message.projectCode);
+        const mapping = await getProjectMapping(message.workspace, message.projectCode);
         return { success: true, data: mapping };
+      }
+
+      case "NEEDS_MIGRATION": {
+        const needsMigrationResult = await needsMigration();
+        return { success: true, data: needsMigrationResult };
+      }
+
+      case "MIGRATE_PROJECT_MAPPINGS": {
+        await migrateProjectMappings(message.workspace);
+        return { success: true };
+      }
+
+      case "GET_WORKSPACE_CONFIG": {
+        const workspaceConfig = await getWorkspaceConfig(message.workspace);
+        return { success: true, data: workspaceConfig };
       }
 
       // API operations (proxied to avoid CORS issues in content scripts)
