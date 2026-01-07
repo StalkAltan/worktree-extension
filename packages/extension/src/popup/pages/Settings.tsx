@@ -168,7 +168,7 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
   useEffect(() => {
     if (workspace) {
       chrome.runtime.sendMessage({ type: "NEEDS_MIGRATION" }, (response) => {
-        if (response?.success && response.data) {
+        if (response?.success && response.data === true) {
           setShowMigrationPrompt(true);
         }
       });
@@ -474,8 +474,8 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
                 className="card"
                 style={{
                   marginBottom: "12px",
-                  backgroundColor: "rgba(var(--color-accent-rgb), 0.1)",
-                  border: "1px solid rgba(var(--color-accent-rgb), 0.3)",
+                  backgroundColor: "rgba(94, 106, 210, 0.1)",
+                  border: "1px solid rgba(94, 106, 210, 0.3)",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>

@@ -25,10 +25,10 @@ export function StatusPage({ onOpenSettings, workspace }: StatusPageProps) {
   }, []);
 
   // Count all project mappings across all workspaces, or just for current workspace
-  const mappingCount = workspace && config.workspaces[workspace]
-    ? Object.keys(config.workspaces[workspace].projectMappings).length
-    : Object.values(config.workspaces).reduce(
-        (total, ws) => total + Object.keys(ws.projectMappings).length,
+  const mappingCount = workspace && config.workspaces?.[workspace]
+    ? Object.keys(config.workspaces[workspace].projectMappings || {}).length
+    : Object.values(config.workspaces || {}).reduce(
+        (total, ws) => total + Object.keys(ws.projectMappings || {}).length,
         0
       );
   const hasWorktreeRoot = config.worktreeRoot.length > 0;
