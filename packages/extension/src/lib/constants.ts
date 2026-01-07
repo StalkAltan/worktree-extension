@@ -21,5 +21,5 @@ export const DEFAULT_CONFIG: ExtensionConfig = {
   serverUrl: DEFAULT_SERVER_URL,
   worktreeRoot: "", // Must be configured by user
   terminalCommand: DEFAULT_TERMINAL_COMMAND,
-  projectMappings: {},
+  workspaces: {},
 };

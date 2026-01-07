@@ -3,6 +3,12 @@ export interface ExtensionConfig {
   serverUrl: string;
   worktreeRoot: string;
   terminalCommand: string;
+  workspaces: Record<string, WorkspaceConfig>;
+  // Keep legacy projectMappings field (optional) for migration detection
+  projectMappings?: Record<string, ProjectMapping>;
+}
+
+export interface WorkspaceConfig {
   projectMappings: Record<string, ProjectMapping>;
 }
 
@@ -18,6 +24,7 @@ export interface LinearContext {
   issueNumber: number;    // e.g., 3
   issueTitle: string;     // e.g., "Implement audit log endpoint spec"
   projectCode: string;    // e.g., "QUO" (from URL workspace or project)
+  workspace: string;      // e.g., "anomaly" (extracted from Linear URL)
 }
 
 // API request/response types
