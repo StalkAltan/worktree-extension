@@ -79,6 +79,128 @@ export function parseCommand(command: string): string[] {
 }
 
 /**
+ * Result from executing a terminal command with output capture.
+ */
+export interface TerminalTestResult {
+  expandedCommand: string;
+  stdout: string;
+  stderr: string;
+  exitCode: number;
+}
+
+/**
+ * Executes a terminal command with token replacement and captures output.
+ * Waits for the process to complete (with timeout) and returns the results.
+ * Used for testing terminal commands.
+ * 
+ * @param command - The command template (e.g., "echo {directory}")
+ * @param tokens - Token values to replace in the command
+ * @param timeoutMs - Maximum time to wait for command completion (default: 10000ms)
+ * @returns Promise with the expanded command, stdout, stderr, and exit code
+ */
+export async function executeTerminalCommandWithCapture(
+  command: string,
+  tokens: TerminalTokens,
+  timeoutMs: number = 10000
+): Promise<TerminalTestResult> {
+  // Replace tokens in the command template
+  const finalCommand = replaceTokens(command, tokens);
+
+  // Parse command into parts respecting quotes
+  const parts = parseCommand(finalCommand);
+
+  log.info("Testing terminal command", {
+    originalCommand: command,
+    finalCommand,
+    parsedParts: parts,
+    tokens,
+  });
+
+  if (parts.length === 0) {
+    log.error("Empty command after parsing", { command, finalCommand });
+    throw new Error("Empty command after parsing");
+  }
+
+  const [executable, ...args] = parts;
+
+  log.info("Spawning test process", { executable, args });
+
+  try {
+    const proc = Bun.spawn({
+      cmd: [executable, ...args],
+      stdout: "pipe",
+      stderr: "pipe",
+      stdin: "ignore",
+    });
+
+    // Set up timeout
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        proc.kill();
+        reject(new Error(`Command timed out after ${timeoutMs}ms`));
+      }, timeoutMs);
+    });
+
+    // Capture stdout
+    const stdoutPromise = (async () => {
+      if (!proc.stdout) return "";
+      const chunks: Uint8Array[] = [];
+      const reader = proc.stdout.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value) chunks.push(value);
+      }
+      return new TextDecoder().decode(
+        Buffer.concat(chunks.map(chunk => Buffer.from(chunk)))
+      );
+    })();
+
+    // Capture stderr
+    const stderrPromise = (async () => {
+      if (!proc.stderr) return "";
+      const chunks: Uint8Array[] = [];
+      const reader = proc.stderr.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value) chunks.push(value);
+      }
+      return new TextDecoder().decode(
+        Buffer.concat(chunks.map(chunk => Buffer.from(chunk)))
+      );
+    })();
+
+    // Wait for all to complete or timeout
+    const [stdout, stderr, exitCode] = await Promise.race([
+      Promise.all([stdoutPromise, stderrPromise, proc.exited]),
+      timeoutPromise,
+    ]);
+
+    log.info("Test command completed", {
+      executable,
+      exitCode,
+      stdoutLength: stdout.length,
+      stderrLength: stderr.length,
+    });
+
+    return {
+      expandedCommand: finalCommand,
+      stdout: stdout.trim(),
+      stderr: stderr.trim(),
+      exitCode,
+    };
+  } catch (error) {
+    log.error("Failed to execute test command", {
+      executable,
+      args,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    throw error;
+  }
+}
+
+/**
  * Executes a terminal command with token replacement.
  * Spawns the process in detached mode so it continues after the server responds.
  * 

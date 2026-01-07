@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { getConfig, saveConfig } from "../../lib/storage";
-import type { ExtensionConfig, ProjectMapping } from "../../lib/types";
+import type { ExtensionConfig, ProjectMapping, TestTerminalResponse } from "../../lib/types";
 import { DEFAULT_CONFIG } from "../../lib/constants";
+import { testTerminalCommand, NetworkError } from "../../lib/api";
+import type { ServerStatusType } from "../App";
 
 interface SettingsPageProps {
   onBack: () => void;
   workspace: string | null; // null = not on Linear
+  serverStatus: ServerStatusType;
+  onServerUrlChange: (url: string) => void;
 }
 
 interface ProjectMappingEntry {
@@ -94,12 +98,72 @@ function InfoIcon() {
   );
 }
 
+function PlayIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 2.5L11 7L3 11.5V2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 5L7 9L11 5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ChevronUpIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 9L7 5L11 9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /**
  * Settings page component for configuring the extension.
  * Allows editing server URL, worktree root, terminal command, and project mappings.
  * Project mappings are workspace-aware when workspace is provided.
  */
-export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
+export function SettingsPage({ onBack, workspace, serverStatus, onServerUrlChange }: SettingsPageProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -130,6 +194,14 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
     repoPath: "",
     baseBranch: "main",
   });
+
+  // Terminal command test state
+  const [showTestForm, setShowTestForm] = useState(false);
+  const [testDirectory, setTestDirectory] = useState("");
+  const [testIssueId, setTestIssueId] = useState("TEST-1");
+  const [testBranchName, setTestBranchName] = useState("test-branch");
+  const [testResult, setTestResult] = useState<TestTerminalResponse | null>(null);
+  const [testing, setTesting] = useState(false);
 
   // Load config
   const loadConfig = useCallback(async () => {
@@ -220,6 +292,9 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
 
       await saveConfig(config);
       setMessage({ type: "success", text: "Settings saved successfully" });
+      
+      // Notify parent if server URL changed
+      onServerUrlChange(config.serverUrl);
     } catch (err) {
       console.error("Failed to save config:", err);
       setMessage({ type: "error", text: "Failed to save settings" });
@@ -394,6 +469,52 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
     );
   }, [newMapping, mappings, workspace]);
 
+  const handleTestCommand = useCallback(async () => {
+    if (!terminalCommand.trim()) {
+      setMessage({ type: "error", text: "Terminal command is required" });
+      return;
+    }
+
+    if (serverStatus !== "connected") {
+      setMessage({ type: "error", text: "Server is not connected" });
+      return;
+    }
+
+    setTesting(true);
+    setTestResult(null);
+
+    try {
+      const result = await testTerminalCommand(
+        {
+          terminalCommand: terminalCommand.trim(),
+          directory: testDirectory.trim() || undefined,
+          issueId: testIssueId.trim() || undefined,
+          branchName: testBranchName.trim() || undefined,
+        },
+        serverUrl
+      );
+      setTestResult(result);
+    } catch (error) {
+      if (error instanceof NetworkError) {
+        setTestResult({
+          success: false,
+          expandedCommand: "",
+          error: "network",
+          message: "Unable to connect to server",
+        });
+      } else {
+        setTestResult({
+          success: false,
+          expandedCommand: "",
+          error: "unknown",
+          message: error instanceof Error ? error.message : "Failed to run test",
+        });
+      }
+    } finally {
+      setTesting(false);
+    }
+  }, [terminalCommand, testDirectory, testIssueId, testBranchName, serverUrl, serverStatus]);
+
   if (loading) {
     return (
       <div className="scroll-area">
@@ -456,6 +577,143 @@ export function SettingsPage({ onBack, workspace }: SettingsPageProps) {
         <div className="form-help">
           Tokens: {"{directory}"}, {"{issueId}"}, {"{branchName}"}
         </div>
+        
+        {/* Test Command Button */}
+        <button
+          className="btn-secondary btn-small btn-icon"
+          style={{ marginTop: "8px" }}
+          onClick={() => {
+            setShowTestForm(!showTestForm);
+            if (!showTestForm) {
+              setTestResult(null);
+            }
+          }}
+        >
+          {showTestForm ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          {showTestForm ? "Hide Test" : "Test Command"}
+        </button>
+
+        {/* Test Form */}
+        {showTestForm && (
+          <div className="card" style={{ marginTop: "12px" }}>
+            <div className="section-title" style={{ marginBottom: "12px" }}>
+              Test Configuration
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: "8px" }}>
+              <label className="form-label" htmlFor="testDirectory">
+                Directory
+              </label>
+              <input
+                id="testDirectory"
+                type="text"
+                value={testDirectory}
+                onChange={(e) => setTestDirectory(e.target.value)}
+                placeholder="Default: ~/ (resolved on server)"
+              />
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: "8px" }}>
+              <label className="form-label" htmlFor="testIssueId">
+                Issue ID
+              </label>
+              <input
+                id="testIssueId"
+                type="text"
+                value={testIssueId}
+                onChange={(e) => setTestIssueId(e.target.value)}
+                placeholder="TEST-1"
+              />
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: "12px" }}>
+              <label className="form-label" htmlFor="testBranchName">
+                Branch Name
+              </label>
+              <input
+                id="testBranchName"
+                type="text"
+                value={testBranchName}
+                onChange={(e) => setTestBranchName(e.target.value)}
+                placeholder="test-branch"
+              />
+            </div>
+
+            <div className="action-row" style={{ marginTop: "8px", justifyContent: "flex-start" }}>
+              <button
+                className="btn-primary btn-small btn-icon"
+                onClick={handleTestCommand}
+                disabled={testing || serverStatus !== "connected"}
+              >
+                {testing ? (
+                  <>
+                    <div className="spinner" style={{ width: "12px", height: "12px" }} />
+                    Running...
+                  </>
+                ) : (
+                  <>
+                    <PlayIcon />
+                    Run Test
+                  </>
+                )}
+              </button>
+              {serverStatus !== "connected" && (
+                <span className="text-muted" style={{ marginLeft: "8px", fontSize: "12px" }}>
+                  Server not connected
+                </span>
+              )}
+            </div>
+
+            {/* Test Results */}
+            {testResult && (
+              <div className="test-results">
+                <div className="section-title" style={{ marginBottom: "8px" }}>
+                  Result
+                </div>
+                
+                {testResult.error ? (
+                  <div className="message message-error">
+                    {testResult.message || testResult.error}
+                  </div>
+                ) : (
+                  <>
+                    <div className="info-row" style={{ padding: "4px 0" }}>
+                      <span className="info-label">Exit Code</span>
+                      <span
+                        className="info-value"
+                        style={{
+                          color: testResult.exitCode === 0 ? "#22c55e" : "#ef4444",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {testResult.exitCode}
+                      </span>
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: "8px", marginTop: "8px" }}>
+                      <label className="form-label">Expanded Command</label>
+                      <pre className="code-block">{testResult.expandedCommand}</pre>
+                    </div>
+
+                    {testResult.stdout && (
+                      <div className="form-group" style={{ marginBottom: "8px" }}>
+                        <label className="form-label">stdout</label>
+                        <pre className="code-block">{testResult.stdout}</pre>
+                      </div>
+                    )}
+
+                    {testResult.stderr && (
+                      <div className="form-group" style={{ marginBottom: "8px" }}>
+                        <label className="form-label">stderr</label>
+                        <pre className="code-block stderr">{testResult.stderr}</pre>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="divider" />

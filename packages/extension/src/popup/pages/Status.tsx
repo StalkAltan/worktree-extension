@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
-import { ServerStatus } from "../components/ServerStatus";
 import { getConfig } from "../../lib/storage";
 import type { ExtensionConfig } from "../../lib/types";
 import { DEFAULT_CONFIG } from "../../lib/constants";
+import type { ServerStatusType } from "../App";
 
 interface StatusPageProps {
   onOpenSettings: () => void;
   workspace: string | null;
+  serverStatus: ServerStatusType;
+  onRetryConnection: () => void;
 }
 
 /**
  * Status page component displays server connection status and
  * configuration summary.
  */
-export function StatusPage({ onOpenSettings, workspace }: StatusPageProps) {
+export function StatusPage({ onOpenSettings, workspace, serverStatus, onRetryConnection }: StatusPageProps) {
   const [config, setConfig] = useState<ExtensionConfig>(DEFAULT_CONFIG);
   const [loading, setLoading] = useState(true);
 
@@ -50,9 +52,31 @@ export function StatusPage({ onOpenSettings, workspace }: StatusPageProps) {
     );
   }
 
+  const statusText = {
+    connected: "Connected",
+    disconnected: "Disconnected",
+    checking: "Checking...",
+  };
+
   return (
     <div className="scroll-area">
-      <ServerStatus serverUrl={config.serverUrl} />
+      <div className="section">
+        <div className="section-title">Server Status</div>
+        <div className="status-indicator">
+          <span className={`status-dot ${serverStatus}`} />
+          <span className={`status-text ${serverStatus}`}>{statusText[serverStatus]}</span>
+        </div>
+        <div className="status-url">{config.serverUrl}</div>
+        {serverStatus === "disconnected" && (
+          <button
+            className="btn-secondary btn-small"
+            style={{ marginTop: "8px" }}
+            onClick={onRetryConnection}
+          >
+            Retry
+          </button>
+        )}
+      </div>
 
       <div className="divider" />
 

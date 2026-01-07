@@ -9,6 +9,7 @@ import { createRouter } from "./router";
 import { corsMiddleware } from "./middleware/cors";
 import { createHealthHandler } from "./routes/health";
 import { createWorktreeCreateHandler, createWorktreeOpenHandler } from "./routes/worktree";
+import { createTerminalTestHandler } from "./routes/terminal";
 
 const PORT = 21547;
 const VERSION = "1.0.0";
@@ -23,6 +24,7 @@ router.use(corsMiddleware());
 router.get("/health", createHealthHandler(VERSION));
 router.post("/worktree/create", createWorktreeCreateHandler());
 router.post("/worktree/open", createWorktreeOpenHandler());
+router.post("/terminal/test", createTerminalTestHandler());
 
 // Start the server
 const server = Bun.serve({

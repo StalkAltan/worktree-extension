@@ -3,9 +3,11 @@
 /* Container */
 .popup-container {
   padding: 16px;
-  min-height: 400px;
+  min-height: 500px;
+  max-height: 600px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* Typography */
@@ -399,4 +401,42 @@ textarea::placeholder {
   background-color: rgba(34, 197, 94, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.2);
   color: #4ade80;
+}
+
+/* Code block for command output */
+.code-block {
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  font-size: 12px;
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 8px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 120px;
+  overflow-y: auto;
+  color: #a3a3a3;
+  margin: 0;
+}
+
+.code-block.stderr {
+  color: #f87171;
+}
+
+.test-results {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #333333;
+}
+
+/* Prevent horizontal overflow in tables */
+.table {
+  table-layout: fixed;
+}
+
+.table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -7,6 +7,8 @@ import type {
   OpenWorktreeResponse,
   WorktreeExistsResponse,
   WorktreeErrorResponse,
+  TestTerminalRequest,
+  TestTerminalResponse,
 } from "./types";
 
 // Request timeout in milliseconds
@@ -214,4 +216,39 @@ export async function isServerReachable(
   } catch {
     return false;
   }
+}
+
+/**
+ * Test a terminal command with sample values
+ *
+ * @returns TestTerminalResponse with the expanded command and output
+ * @throws ApiError for API errors
+ * @throws NetworkError for connection failures
+ */
+export async function testTerminalCommand(
+  request: TestTerminalRequest,
+  serverUrl: string = DEFAULT_SERVER_URL
+): Promise<TestTerminalResponse> {
+  const response = await fetchWithTimeout(`${serverUrl}/terminal/test`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  // Parse the response (we always expect JSON from this endpoint)
+  const data = await parseResponse<TestTerminalResponse>(response);
+
+  // Handle errors (the response includes success: false for errors)
+  if (!response.ok && !data.success) {
+    throw new ApiError(
+      data.message || "Failed to test terminal command",
+      response.status,
+      data.error
+    );
+  }
+
+  return data;
 }

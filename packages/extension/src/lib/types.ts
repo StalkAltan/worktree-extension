@@ -69,6 +69,24 @@ export interface HealthResponse {
   version: string;
 }
 
+// Terminal test request/response types
+export interface TestTerminalRequest {
+  terminalCommand: string;
+  directory?: string;
+  issueId?: string;
+  branchName?: string;
+}
+
+export interface TestTerminalResponse {
+  success: boolean;
+  expandedCommand: string;
+  stdout?: string;
+  stderr?: string;
+  exitCode?: number;
+  error?: string;
+  message?: string;
+}
+
 // Dialog state
 export type DialogState = 
   | { type: "closed" }

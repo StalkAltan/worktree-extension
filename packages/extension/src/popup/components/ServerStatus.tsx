@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { healthCheck, NetworkError, ApiError } from "../../lib/api";
-
-export type ServerStatusType = "connected" | "disconnected" | "checking";
+import type { ServerStatusType } from "../App";
 
 interface ServerStatusProps {
   serverUrl: string;
